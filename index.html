@@ -1222,18 +1222,23 @@ function queryIslamicKB(q){
   var ZH={title:"Authentic Hadith on Zamzam Water",hadiths:[{ref:"Sunan Ibn Majah, Book 31, Hadith 3062 | Graded Sahih by Al-Albani",narrator:"Jabir ibn Abdullah (RA)",text:"Zamzam water is for whatever it is drunk for.",grade:"Sahih (Authentic)"},{ref:"Sahih Muslim, Book 43, Hadith 2473",narrator:"Abu Dharr (RA)",text:"Zamzam is blessed — it is food that satisfies and cure from illness.",grade:"Sahih (Authentic)"}]};
   var MH={title:"Authentic Hadith on Madinah",hadiths:[{ref:"Sahih Al-Bukhari, Book 29, Hadith 1190 | Sahih Muslim, Book 15, Hadith 1394",narrator:"Abu Hurairah (RA)",text:"A prayer in Masjid Al-Nabawi is better than 1,000 prayers elsewhere, except for Masjid Al-Haram where one prayer equals 100,000.",grade:"Sahih (Authentic)"},{ref:"Sunan Ibn Majah, Book 25, Hadith 1441 | Graded Sahih by Al-Albani",narrator:"Ibn Umar (RA)",text:"Whoever visits my grave, my intercession will be guaranteed for him.",grade:"Sahih (Authentic)"}]};
   var AH={title:"Hadith on Arafat",hadiths:[{ref:"Sunan Al-Tirmidhi, Book 9, Hadith 889 | Graded Sahih by Al-Albani",narrator:"Abd Al-Rahman ibn Ya'mur (RA)",text:"Hajj is Arafat — whoever misses Arafat misses Hajj.",grade:"Sahih (Authentic)"},{ref:"Sahih Muslim, Book 43, Hadith 2749",narrator:"Aisha (RA)",text:"There is no day on which Allah frees more people from the Fire than the Day of Arafat.",grade:"Sahih (Authentic)"}]};
-  if(q.includes("verse")||q.includes("ayah")||q.includes("ayat")||q.includes("quran")||q.includes("surah")){
+  var asksVerse=(q.includes("verse")||q.includes("ayah")||q.includes("ayat")||q.includes("surah")||(q.includes("quran")&&!q.includes("hadith")&&!q.includes("hadees")));
+  var asksHadith=(q.includes("hadith")||q.includes("hadees")||q.includes("hadeeth")||q.includes("bukhari")||q.includes("muslim")||q.includes("sunnah")||(q.includes("narrat")));
+  if(asksVerse){
     if(q.includes("umrah")||q.includes("umra"))return fv(UQ);
     if(q.includes("kaaba")||q.includes("kaba"))return fv(KQ);
     return fv(HJ);
   }
-  if(q.includes("hadith")||q.includes("hadees")||q.includes("bukhari")||q.includes("muslim")||q.includes("sunnah")){
+  if(asksHadith){
     if(q.includes("zamzam"))return fh(ZH);
     if(q.includes("umrah")||q.includes("umra")||q.includes("ramadan")||q.includes("ramzan"))return fh(UH);
     if(q.includes("madinah")||q.includes("madina")||q.includes("nabawi"))return fh(MH);
     if(q.includes("arafat")||q.includes("arafah"))return fh(AH);
     return fh(HH);
   }
+  if(q.includes("hajj")||q.includes("haj"))return fh(HH);
+  if(q.includes("umrah")||q.includes("umra"))return fh(UH);
+  if(q.includes("zamzam"))return fh(ZH);
   return null;
 }
 // ── LOADER ────────────────────────────────────────────────────────────────
