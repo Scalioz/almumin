@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
@@ -1210,6 +1210,32 @@
 </footer>
 
 <script>
+function queryIslamicKB(q){
+  q=q.toLowerCase();
+  function fv(t){var r=t.title+":\n\n";t.verses.forEach(function(v){r+="📌 "+v.ref+"\nArabic: "+v.arabic+"\nTranslation: \""+v.translation+"\"\nContext: "+v.context+"\n\n";});return r.trim();}
+  function fh(t){var r=t.title+":\n\n";t.hadiths.forEach(function(h){r+="📌 "+h.ref+"\nNarrator: "+h.narrator+"\nText: \""+h.text+"\"\nGrade: "+h.grade+(h.note?"\nNote: "+h.note:"")+"\n\n";});return r.trim();}
+  var HJ={title:"Quranic Verses on Hajj",verses:[{ref:"Surah Al-Baqarah 2:196",arabic:"وَأَتِمُّوا الْحَجَّ وَالْعُمْرَةَ لِلَّهِ",translation:"Complete the Hajj and Umrah for Allah.",context:"Primary command for Hajj & Umrah."},{ref:"Surah Al-Imran 3:97",arabic:"وَلِلَّهِ عَلَى النَّاسِ حِجُّ الْبَيْتِ مَنِ اسْتَطَاعَ",translation:"Pilgrimage to the House is a duty owed to Allah by those who are able.",context:"Establishes Hajj as Fard (obligatory) once in a lifetime."},{ref:"Surah Al-Baqarah 2:197",arabic:"الْحَجُّ أَشْهُرٌ مَّعْلُومَاتٌ",translation:"Hajj is in well-known months.",context:"Months of Hajj: Shawwal, Dhul Qa'dah, Dhul Hijjah."},{ref:"Surah Al-Hajj 22:27",arabic:"وَأَذِّن فِي النَّاسِ بِالْحَجِّ",translation:"Proclaim Hajj to all people: they will come on foot and on lean camels from every distant pass.",context:"Allah's command to Ibrahim AS to call mankind to Hajj."},{ref:"Surah Al-Baqarah 2:158",arabic:"إِنَّ الصَّفَا وَالْمَرْوَةَ مِن شَعَائِرِ اللَّهِ",translation:"Safa and Marwa are among the symbols of Allah.",context:"The Sa'i ritual."}]};
+  var UQ={title:"Quranic Verses on Umrah",verses:[{ref:"Surah Al-Baqarah 2:196",arabic:"وَأَتِمُّوا الْحَجَّ وَالْعُمْرَةَ لِلَّهِ",translation:"Complete the Hajj and Umrah for Allah.",context:"Primary command — Wajib per Imam Shafi'i & Ahmad, Sunnah Mu'akkadah per Imam Malik & Abu Hanifah."}]};
+  var KQ={title:"Quranic Verses on the Kaaba",verses:[{ref:"Surah Al-Baqarah 2:144",arabic:"فَوَلِّ وَجْهَكَ شَطْرَ الْمَسْجِدِ الْحَرَامِ",translation:"Turn your face toward the Sacred Mosque.",context:"Kaaba as Qibla for all Muslims."},{ref:"Surah Al-Imran 3:96",arabic:"إِنَّ أَوَّلَ بَيْتٍ وُضِعَ لِلنَّاسِ لَلَّذِي بِبَكَّةَ مُبَارَكًا",translation:"The first House established for mankind was that at Makkah — blessed and guidance for the worlds.",context:"The Kaaba is the first house of worship built for mankind."}]};
+  var HH={title:"Authentic Hadith on Hajj",hadiths:[{ref:"Sahih Al-Bukhari, Book 2, Hadith 8 | Sahih Muslim, Book 1, Hadith 16",narrator:"Ibn Umar (RA)",text:"Islam is built on five pillars — one of them is Hajj to the House for those who are able.",grade:"Sahih (Authentic)"},{ref:"Sahih Al-Bukhari, Book 25, Hadith 1521 | Sahih Muslim, Book 15, Hadith 1350",narrator:"Abu Hurairah (RA)",text:"Whoever performs Hajj for Allah's sake only, does not have sexual relations with his wife, and does not commit sins, returns as pure as the day his mother gave birth to him.",grade:"Sahih (Authentic)"},{ref:"Sahih Al-Bukhari, Book 25, Hadith 1773 | Sahih Muslim, Book 15, Hadith 1349",narrator:"Abu Hurairah (RA)",text:"One Umrah to another Umrah is an expiation for sins between them, and the reward of Hajj Mabrur is nothing but Paradise.",grade:"Sahih (Authentic)"},{ref:"Sunan Ibn Majah, Book 25, Hadith 2893 | Graded Sahih by Al-Albani",narrator:"Ibn Abbas (RA)",text:"Whoever intends to perform Hajj, let him hasten, for a person may fall ill, lose his mount, or some need may arise.",grade:"Sahih (Authentic)"}]};
+  var UH={title:"Authentic Hadith on Umrah",hadiths:[{ref:"Sahih Al-Bukhari, Book 26, Hadith 1764 | Sahih Muslim, Book 15, Hadith 1256",narrator:"Ibn Abbas (RA)",text:"Umrah in Ramadan is equivalent to the reward of Hajj with me (the Prophet ﷺ).",grade:"Sahih (Authentic)",note:"Equal in reward — does not replace obligatory Hajj."},{ref:"Sahih Muslim, Book 15, Hadith 1349",narrator:"Abu Hurairah (RA)",text:"Umrah to Umrah is an expiation for what is between them, and the reward of Hajj Mabrur is nothing but Paradise.",grade:"Sahih (Authentic)"}]};
+  var ZH={title:"Authentic Hadith on Zamzam Water",hadiths:[{ref:"Sunan Ibn Majah, Book 31, Hadith 3062 | Graded Sahih by Al-Albani",narrator:"Jabir ibn Abdullah (RA)",text:"Zamzam water is for whatever it is drunk for.",grade:"Sahih (Authentic)"},{ref:"Sahih Muslim, Book 43, Hadith 2473",narrator:"Abu Dharr (RA)",text:"Zamzam is blessed — it is food that satisfies and cure from illness.",grade:"Sahih (Authentic)"}]};
+  var MH={title:"Authentic Hadith on Madinah",hadiths:[{ref:"Sahih Al-Bukhari, Book 29, Hadith 1190 | Sahih Muslim, Book 15, Hadith 1394",narrator:"Abu Hurairah (RA)",text:"A prayer in Masjid Al-Nabawi is better than 1,000 prayers elsewhere, except for Masjid Al-Haram where one prayer equals 100,000.",grade:"Sahih (Authentic)"},{ref:"Sunan Ibn Majah, Book 25, Hadith 1441 | Graded Sahih by Al-Albani",narrator:"Ibn Umar (RA)",text:"Whoever visits my grave, my intercession will be guaranteed for him.",grade:"Sahih (Authentic)"}]};
+  var AH={title:"Hadith on Arafat",hadiths:[{ref:"Sunan Al-Tirmidhi, Book 9, Hadith 889 | Graded Sahih by Al-Albani",narrator:"Abd Al-Rahman ibn Ya'mur (RA)",text:"Hajj is Arafat — whoever misses Arafat misses Hajj.",grade:"Sahih (Authentic)"},{ref:"Sahih Muslim, Book 43, Hadith 2749",narrator:"Aisha (RA)",text:"There is no day on which Allah frees more people from the Fire than the Day of Arafat.",grade:"Sahih (Authentic)"}]};
+  if(q.includes("verse")||q.includes("ayah")||q.includes("ayat")||q.includes("quran")||q.includes("surah")){
+    if(q.includes("umrah")||q.includes("umra"))return fv(UQ);
+    if(q.includes("kaaba")||q.includes("kaba"))return fv(KQ);
+    return fv(HJ);
+  }
+  if(q.includes("hadith")||q.includes("hadees")||q.includes("bukhari")||q.includes("muslim")||q.includes("sunnah")){
+    if(q.includes("zamzam"))return fh(ZH);
+    if(q.includes("umrah")||q.includes("umra")||q.includes("ramadan")||q.includes("ramzan"))return fh(UH);
+    if(q.includes("madinah")||q.includes("madina")||q.includes("nabawi"))return fh(MH);
+    if(q.includes("arafat")||q.includes("arafah"))return fh(AH);
+    return fh(HH);
+  }
+  return null;
+}
 // ── LOADER ────────────────────────────────────────────────────────────────
 window.addEventListener('load', () => {
   setTimeout(() => document.getElementById('loader').classList.add('hide'), 1800);
