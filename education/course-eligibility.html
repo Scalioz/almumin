@@ -1,0 +1,368 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Course Eligibility Checker â€” Scalioz Education Tools</title>
+<meta name="description" content="Check eligibility for 20+ Indian courses instantly. Built for education institutes by Scalioz." />
+<link rel="icon" href="../assets/logo.png" type="image/png" />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--navy:#0A1860;--blue:#1A3CFF;--cyan:#00C8FF;--blue-light:#EEF2FF;
+--green:#00B341;--green-light:#E6F9EE;--red:#E53E3E;--amber:#F59E0B;
+--gray-50:#F8F9FC;--gray-100:#F1F3F9;--gray-200:#E2E6F0;
+--gray-400:#9BA3BC;--gray-600:#5A6382;--gray-800:#1E2642;--white:#FFFFFF;
+--font:'Plus Jakarta Sans',sans-serif;--font-body:'Inter',sans-serif;
+--shadow-sm:0 1px 4px rgba(10,24,96,0.08);--shadow-md:0 4px 16px rgba(10,24,96,0.10);
+--shadow-lg:0 12px 40px rgba(10,24,96,0.13);--radius:12px;--radius-sm:8px}
+body{font-family:var(--font-body);background:var(--gray-50);color:var(--gray-800)}
+nav{background:var(--white);border-bottom:1px solid var(--gray-200);position:sticky;top:0;z-index:100}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.nav-logo img{height:36px}
+.nav-logo-text{font-family:var(--font);font-size:17px;font-weight:800;color:var(--navy)}
+.nav-logo-text span{color:var(--blue)}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{color:var(--gray-600);text-decoration:none;font-size:14px;font-weight:500;padding:7px 14px;border-radius:6px;transition:all .2s}
+.nav-links a:hover{color:var(--navy);background:var(--gray-100)}
+.nav-cta{background:var(--blue)!important;color:var(--white)!important;border-radius:8px!important;font-weight:600!important}
+.nav-cta:hover{background:var(--navy)!important}
+@media(max-width:768px){.nav-links{display:none}}
+.breadcrumb{max-width:1200px;margin:0 auto;padding:14px 24px 0;display:flex;align-items:center;gap:6px;font-size:13px;color:var(--gray-400)}
+.breadcrumb a{color:var(--gray-400);text-decoration:none}
+.breadcrumb a:hover{color:var(--blue)}
+.breadcrumb span{color:var(--gray-800);font-weight:500}
+.page-wrap{max-width:1200px;margin:0 auto;padding:24px 24px 80px;display:grid;grid-template-columns:1fr 340px;gap:32px;align-items:start}
+@media(max-width:960px){.page-wrap{grid-template-columns:1fr}.sidebar{order:-1}}
+.tool-badge{display:inline-flex;align-items:center;gap:6px;background:var(--blue-light);color:var(--blue);font-size:12px;font-weight:700;padding:4px 12px;border-radius:100px;margin-bottom:14px;font-family:var(--font);text-transform:uppercase;letter-spacing:.5px}
+.tool-title{font-family:var(--font);font-size:clamp(26px,3.5vw,36px);font-weight:800;color:var(--gray-800);line-height:1.15;margin-bottom:10px;letter-spacing:-.3px}
+.tool-subtitle{font-size:16px;color:var(--gray-600);line-height:1.6;margin-bottom:28px;max-width:580px}
+.section-title{font-family:var(--font);font-size:18px;font-weight:700;color:var(--gray-800);margin-bottom:12px}
+.what-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.what-list li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--gray-600);line-height:1.5}
+.what-list li::before{content:'âœ“';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
+.demo-box{background:linear-gradient(135deg,#1A3CFF 0%,#0A1860 100%);border-radius:16px;overflow:hidden;margin-bottom:28px}
+.demo-header{padding:18px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.12)}
+.demo-header-left h3{font-family:var(--font);font-size:16px;font-weight:700;color:var(--white)}
+.demo-header-left p{font-size:12px;color:rgba(255,255,255,.6);margin-top:2px}
+.demo-free-badge{background:rgba(0,200,255,.2);border:1px solid rgba(0,200,255,.4);color:var(--cyan);font-size:12px;font-weight:700;padding:4px 12px;border-radius:100px;font-family:var(--font)}
+.demo-inner{padding:24px}
+.demo-form{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.demo-group{display:flex;flex-direction:column;gap:5px}
+.demo-group.full{grid-column:1/-1}
+.demo-label{font-size:11px;font-weight:600;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.5px}
+.demo-select,.demo-input{width:100%;padding:9px 12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;color:var(--white);font-size:13px;font-family:var(--font-body);outline:none;transition:border-color .2s}
+.demo-select:focus,.demo-input:focus{border-color:var(--cyan)}
+.demo-select option{background:var(--navy);color:var(--white)}
+.demo-btn{width:100%;padding:12px;background:var(--cyan);color:var(--navy);border:none;border-radius:8px;font-size:14px;font-weight:700;font-family:var(--font);cursor:pointer;margin-top:6px;transition:all .2s}
+.demo-btn:hover{background:#00E0FF;transform:translateY(-1px)}
+.demo-results{margin-top:16px;display:none}
+.demo-results-title{font-size:13px;font-weight:700;color:var(--cyan);margin-bottom:10px;font-family:var(--font)}
+.demo-result-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,.08);border-radius:8px;margin-bottom:6px;animation:fadeSlide .3s ease both}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.demo-result-name{font-size:13px;font-weight:600;color:var(--white)}
+.demo-result-reason{font-size:11px;color:rgba(255,255,255,.55);margin-top:2px}
+.demo-limit-note{text-align:center;padding:14px;background:rgba(0,200,255,.1);border-radius:8px;margin-top:10px}
+.demo-limit-note p{font-size:12px;color:rgba(255,255,255,.7);margin-bottom:8px}
+.demo-unlock-btn{display:inline-block;padding:8px 20px;background:var(--cyan);color:var(--navy);border-radius:6px;font-size:13px;font-weight:700;font-family:var(--font);text-decoration:none;cursor:pointer;border:none}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(10,24,96,.3);border-top-color:var(--navy);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sidebar{position:sticky;top:80px}
+.pricing-card{background:var(--white);border-radius:16px;box-shadow:var(--shadow-lg);overflow:hidden;border:1px solid var(--gray-200);margin-bottom:16px}
+.pricing-card-header{padding:18px 22px 0}
+.pricing-card-header h3{font-family:var(--font);font-size:16px;font-weight:700;color:var(--gray-800);margin-bottom:4px}
+.pricing-card-header p{font-size:13px;color:var(--gray-400);margin-bottom:16px}
+.price-row{padding:16px 22px;border:1.5px solid var(--gray-200);border-radius:var(--radius-sm);margin:0 16px 12px;position:relative}
+.price-row.popular{border-color:var(--blue);background:var(--blue-light)}
+.price-row-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.price-plan-name{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray-400);font-family:var(--font)}
+.save-badge{background:var(--blue);color:var(--white);font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;font-family:var(--font)}
+.price-amount{font-family:var(--font);font-size:26px;font-weight:800;color:var(--navy);line-height:1}
+.price-amount sup{font-size:14px;vertical-align:super}
+.price-gst{font-size:12px;color:var(--gray-400);margin-top:3px;margin-bottom:10px}
+.price-features{list-style:none;margin-bottom:12px}
+.price-features li{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--gray-600);padding:2px 0}
+.price-features li::before{content:'â€¢';color:var(--blue);font-weight:700}
+.btn-subscribe{background:var(--blue);color:var(--white);border:none;border-radius:8px;padding:11px;font-size:14px;font-weight:700;font-family:var(--font);cursor:pointer;width:100%;transition:all .2s}
+.btn-subscribe:hover{background:var(--navy);transform:translateY(-1px)}
+.btn-subscribe.dark{background:var(--navy)}
+.btn-subscribe.dark:hover{background:#060f3d}
+.trust-badges{padding:14px 22px 18px;border-top:1px solid var(--gray-100);display:flex;flex-direction:column;gap:7px}
+.trust-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--gray-600)}
+.trust-item.green{color:var(--green);font-weight:600}
+.faq-section{margin-bottom:32px}
+.faq-item{border:1px solid var(--gray-200);border-radius:var(--radius-sm);margin-bottom:8px;overflow:hidden;background:var(--white)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;cursor:pointer;font-size:14px;font-weight:600;color:var(--gray-800);font-family:var(--font);transition:background .2s;gap:12px}
+.faq-q:hover{background:var(--gray-50)}
+.faq-arrow{font-size:18px;color:var(--gray-400);transition:transform .25s;flex-shrink:0}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+.faq-a{display:none;padding:0 18px 16px;font-size:14px;color:var(--gray-600);line-height:1.6;border-top:1px solid var(--gray-100);padding-top:14px}
+.faq-item.open .faq-a{display:block}
+.rate-section{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:24px;margin-bottom:32px}
+.rate-section h3{font-family:var(--font);font-size:16px;font-weight:700;margin-bottom:4px}
+.rate-section>p{font-size:13px;color:var(--gray-400);margin-bottom:18px}
+.rate-form-group{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.rate-label{font-size:12px;font-weight:600;color:var(--gray-600);text-transform:uppercase;letter-spacing:.3px;font-family:var(--font)}
+.rate-input,.rate-textarea{width:100%;padding:10px 13px;border:1.5px solid var(--gray-200);border-radius:var(--radius-sm);font-size:14px;font-family:var(--font-body);color:var(--gray-800);outline:none;resize:vertical}
+.rate-input:focus,.rate-textarea:focus{border-color:var(--blue)}
+.stars{display:flex;gap:4px}
+.star{font-size:24px;cursor:pointer;color:var(--gray-200);transition:color .15s}
+.star:hover,.star.active{color:var(--amber)}
+.char-count{font-size:11px;color:var(--gray-400);text-align:right;margin-top:4px}
+.btn-review{background:var(--blue);color:var(--white);border:none;border-radius:var(--radius-sm);padding:11px 24px;font-size:14px;font-weight:700;font-family:var(--font);cursor:pointer;transition:all .2s}
+.btn-review:hover{background:var(--navy)}
+.reviews-section{margin-bottom:32px}
+.reviews-section h3{font-family:var(--font);font-size:18px;font-weight:700;margin-bottom:18px}
+.no-reviews{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:32px;text-align:center;color:var(--gray-400);font-size:14px}
+.custom-cta{background:var(--navy);border-radius:16px;padding:40px 32px;text-align:center;margin-bottom:32px}
+.custom-cta h3{font-family:var(--font);font-size:20px;font-weight:800;color:var(--white);margin-bottom:8px}
+.custom-cta p{font-size:14px;color:rgba(255,255,255,.65);margin-bottom:20px}
+.btn-custom{display:inline-block;padding:12px 28px;background:var(--cyan);color:var(--navy);border-radius:8px;font-size:14px;font-weight:700;font-family:var(--font);text-decoration:none;transition:all .2s}
+.btn-custom:hover{background:#00E0FF;transform:translateY(-1px)}
+footer{background:var(--navy);padding:48px 24px 24px}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;margin-bottom:32px}
+.footer-brand .f-logo{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.footer-brand .f-logo img{height:36px}
+.footer-brand .f-logo-text{font-family:var(--font);font-size:16px;font-weight:800;color:var(--white)}
+.f-tagline{font-size:12px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;font-weight:600}
+.footer-col h4{font-family:var(--font);font-size:13px;font-weight:700;color:var(--white);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.footer-col a{display:block;font-size:13px;color:rgba(255,255,255,.5);text-decoration:none;margin-bottom:8px;transition:color .2s}
+.footer-col a:hover{color:var(--cyan)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-bottom p{font-size:12px;color:rgba(255,255,255,.3)}
+@media(max-width:768px){.footer-top{grid-template-columns:1fr;gap:24px}.demo-form{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo">
+      <img src="../assets/logo.png" alt="Scalioz" onerror="this.style.display='none'"/>
+      </a>
+    <div class="nav-links">
+      <a href="../tools.html">Tools</a>
+      <a href="../index.html#pricing">Pricing</a>
+      <a href="../index.html#support">Support</a>
+      <a href="../index.html#contact">Custom</a>
+      <a href="../index.html#contact" class="nav-cta">Get Started</a>
+    </div>
+  </div>
+</nav>
+<div class="breadcrumb">
+  <a href="../index.html">Home</a> /
+  <a href="../tools.html#education">Education</a> /
+  <span>Course Eligibility Checker</span>
+</div>
+<div class="page-wrap">
+  <div class="content">
+    <div class="tool-badge">ðŸŽ“ Education</div>
+    <h1 class="tool-title">Course Eligibility Checker</h1>
+    <p class="tool-subtitle">Instantly check which Indian courses a student qualifies for â€” based on qualification, stream, marks and category. Covers 20+ courses across 7 streams.</p>
+    <h2 class="section-title">What this tool does</h2>
+    <ul class="what-list">
+      <li>Checks eligibility across 20+ Indian courses â€” B.Tech, MBBS, MBA, Law, B.Arch and more</li>
+      <li>Applies SC/ST, OBC, EWS and PwD category-based mark relaxation automatically</li>
+      <li>Flags partial eligibility when marks are borderline or entrance exams are pending</li>
+      <li>Shows course duration, required entrance exams and key notes for each result</li>
+      <li>Helps counsellors assess multiple students quickly without any manual lookup</li>
+    </ul>
+    <div class="demo-box">
+      <div class="demo-header">
+        <div class="demo-header-left">
+          <h3>Live Demo Preview</h3>
+          <p>Try a quick eligibility check â€” free, no login required</p>
+        </div>
+        <span class="demo-free-badge">FREE PREVIEW</span>
+      </div>
+      <div class="demo-inner">
+        <div class="demo-form">
+          <div class="demo-group">
+            <label class="demo-label">Qualification</label>
+            <select class="demo-select" id="dQual" onchange="updateDemoStreams()">
+              <option value="">â€” Select â€”</option>
+              <option value="10th">10th Pass</option>
+              <option value="12th">12th Pass</option>
+              <option value="diploma">Diploma</option>
+              <option value="ug">Graduation (UG)</option>
+              <option value="pg">Post-Graduation</option>
+            </select>
+          </div>
+          <div class="demo-group">
+            <label class="demo-label">Stream</label>
+            <select class="demo-select" id="dStream"><option value="">â€” Select â€”</option></select>
+          </div>
+          <div class="demo-group">
+            <label class="demo-label">Percentage</label>
+            <input class="demo-input" type="number" id="dMarks" placeholder="E.g. 72" min="0" max="100"/>
+          </div>
+          <div class="demo-group">
+            <label class="demo-label">Category</label>
+            <select class="demo-select" id="dCat">
+              <option value="general">General / OBC</option>
+              <option value="sc_st">SC / ST</option>
+              <option value="ews">EWS</option>
+              <option value="pwd">PwD</option>
+            </select>
+          </div>
+          <div class="demo-group full">
+            <button class="demo-btn" onclick="runDemo()" id="demoBtn">ðŸ” Check Eligibility (Preview â€” Top 5 Results)</button>
+          </div>
+        </div>
+        <div class="demo-results" id="demoResults">
+          <div class="demo-results-title">Top Results (Preview â€” 5 of 20+ courses)</div>
+          <div id="demoResultsList"></div>
+          <div class="demo-limit-note">
+            <p>ðŸ”’ Unlock all 20+ courses, PDF export, bulk student upload and full counsellor dashboard.</p>
+            <button class="demo-unlock-btn" onclick="document.querySelector('.pricing-card').scrollIntoView({behavior:'smooth'})">Unlock Full Access â†’</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <div class="faq-section">
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How do I access the tool after purchase? <span class="faq-arrow">âŒ„</span></div><div class="faq-a">You receive a license key via WhatsApp immediately after payment. Enter it on the tool page to unlock full access including all 20+ courses, PDF export and bulk student upload.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can I use the tool on multiple devices? <span class="faq-arrow">âŒ„</span></div><div class="faq-a">Yes. Your license key works on any device and browser. Monthly and yearly plans support up to 3 devices. Lifetime plan supports unlimited devices.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What's included in the monthly plan? <span class="faq-arrow">âŒ„</span></div><div class="faq-a">Monthly plan includes unlimited eligibility checks, PDF result export, student profile saving and email support. Cancel anytime from your dashboard.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How does the yearly plan save me money? <span class="faq-arrow">âŒ„</span></div><div class="faq-a">Yearly plan is â‚¹3,999/yr vs â‚¹499Ã—12 = â‚¹5,988/yr on monthly â€” saving you 33%. It also includes 1 upgrade per quarter and 24hr priority support.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What is your refund policy? <span class="faq-arrow">âŒ„</span></div><div class="faq-a">We offer a 7-day refund on monthly plans if you're not satisfied. Yearly and lifetime plans are non-refundable after 7 days. Contact support@scalioz.com for assistance.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Is the eligibility data up to date? <span class="faq-arrow">âŒ„</span></div><div class="faq-a">Yes. We update eligibility criteria every academic year based on official UGC, AICTE, NMC and state board guidelines. Lifetime users get all updates free forever.</div></div>
+    </div>
+    <div class="rate-section">
+      <h3>Rate this tool</h3>
+      <p>Only verified license holders can leave a review</p>
+      <div class="rate-form-group"><label class="rate-label">License Key</label><input class="rate-input" type="text" placeholder="Enter your license key to verify purchase"/></div>
+      <div class="rate-form-group"><label class="rate-label">Your Rating</label><div class="stars" id="stars"><span class="star" onclick="setRating(1)">â˜…</span><span class="star" onclick="setRating(2)">â˜…</span><span class="star" onclick="setRating(3)">â˜…</span><span class="star" onclick="setRating(4)">â˜…</span><span class="star" onclick="setRating(5)">â˜…</span></div></div>
+      <div class="rate-form-group"><label class="rate-label">Your Name (optional)</label><input class="rate-input" type="text" placeholder="Anonymous"/></div>
+      <div class="rate-form-group"><label class="rate-label">Your Review (optional)</label><textarea class="rate-textarea" rows="4" maxlength="500" placeholder="How has this tool helped your business?" oninput="document.getElementById('cc').textContent=this.value.length+'/500'"></textarea><div class="char-count" id="cc">0/500</div></div>
+      <button class="btn-review">Submit Review</button>
+    </div>
+    <div class="reviews-section"><h3>Customer Reviews</h3><div class="no-reviews">No reviews yet. Be the first to rate this tool after purchase.</div></div>
+    <div class="custom-cta">
+      <h3>ðŸ”§ Need a custom version of this tool?</h3>
+      <p>We can brand it, modify it, or build something completely new for your business.</p>
+      <a href="../index.html#contact" class="btn-custom">See Custom Options â†’</a>
+    </div>
+  </div>
+  <div class="sidebar">
+    <div class="pricing-card">
+      <div class="pricing-card-header">
+        <h3>Get Access to Course Eligibility Checker</h3>
+        <p>Choose the plan that fits your business</p>
+      </div>
+      <div class="price-row" style="margin-top:16px;">
+        <div class="price-row-top"><span class="price-plan-name">Monthly</span></div>
+        <div class="price-amount"><sup>â‚¹</sup>499<span style="font-size:14px;font-weight:500;color:var(--gray-400)">/mo</span></div>
+        <div class="price-gst">+ 18% GST</div>
+        <ul class="price-features"><li>Cancel anytime</li><li>Bug fixes, 48hr WhatsApp support</li></ul>
+        <button class="btn-subscribe" onclick="openRazorpay('monthly',58902,'Monthly Plan â€” Course Eligibility Checker')">Subscribe Monthly</button>
+      </div>
+      <div class="price-row popular">
+        <div class="price-row-top"><span class="price-plan-name">Yearly</span><span class="save-badge">SAVE 33%</span></div>
+        <div class="price-amount"><sup>â‚¹</sup>3,999<span style="font-size:14px;font-weight:500;color:var(--gray-600)">/yr</span></div>
+        <div class="price-gst">+ 18% GST</div>
+        <ul class="price-features"><li>1 upgrade/quarter included</li><li>24hr support, email + WhatsApp</li></ul>
+        <button class="btn-subscribe" onclick="openRazorpay('yearly',471882,'Yearly Plan â€” Course Eligibility Checker')">Subscribe Yearly</button>
+      </div>
+      <div class="price-row">
+        <div class="price-row-top"><span class="price-plan-name">Lifetime</span></div>
+        <div class="price-amount"><sup>â‚¹</sup>9,999</div>
+        <div class="price-gst">+ GST = â‚¹11,799 total</div>
+        <ul class="price-features"><li>Pay once, use forever</li><li>2 upgrades/year, 12hr support, call access</li></ul>
+        <button class="btn-subscribe dark" onclick="openRazorpay('lifetime',1179882,'Lifetime Plan â€” Course Eligibility Checker')">Buy Lifetime</button>
+      </div>
+      <div class="trust-badges">
+        <div class="trust-item">ðŸ”’ Secure payment via Razorpay</div>
+        <div class="trust-item">ðŸ§¾ GST Invoice auto-generated</div>
+        <div class="trust-item">ðŸ• 7-day refund on monthly plans</div>
+        <div class="trust-item green">âš¡ Instant access after payment</div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="f-logo"><img src="../assets/logo.png" alt="Scalioz" onerror="this.style.display='none'"/><span class="f-logo-text">SC<span style="color:var(--cyan)">AI</span>LOZ</span></div>
+        <div class="f-tagline">Build Systems. Grow Faster.</div>
+        <p style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.6">Â© 2026 Scalioz â€” Scalioz Digital Business Solutions</p>
+      </div>
+      <div class="footer-col"><h4>Quick Links</h4><a href="../tools.html">Tools</a><a href="../index.html#pricing">Pricing</a><a href="../index.html#support">Support</a></div>
+      <div class="footer-col"><h4>Legal</h4><a href="#">Terms of Service</a><a href="#">Privacy Policy</a><a href="#">Refund Policy</a><a href="#">Cookie Policy</a></div>
+    </div>
+    <div class="footer-bottom">
+      <p>Â© 2026 Scalioz. All tools and content are proprietary to Scalioz Digital Business Solutions.</p>
+      <p>A Scalioz Digital Business Solutions Company â€” All Rights Reserved 2026</p>
+    </div>
+  </div>
+</footer>
+<script>
+const RAZORPAY_KEY='rzp_live_SsU1sQQQXDGPHX';
+function openRazorpay(plan,amt,desc){
+  const o={key:RAZORPAY_KEY,amount:amt,currency:'INR',name:'Scalioz Systems',
+    description:desc,image:'../assets/logo.png',
+    prefill:{name:'',email:'',contact:''},
+    notes:{tool:'Course Eligibility Checker',plan:plan},
+    theme:{color:'#1A3CFF'},
+    handler:function(r){alert('âœ… Payment successful!\nPayment ID: '+r.razorpay_payment_id+'\n\nYour license key will be sent via WhatsApp within 5 minutes.')}};
+  new Razorpay(o).open();
+}
+const demoStreams={
+  '10th':[{v:'any',l:'Any / General'}],
+  '12th':[{v:'pcm',l:'Science â€” PCM'},{v:'pcb',l:'Science â€” PCB'},{v:'pcmb',l:'Science â€” PCMB'},{v:'commerce',l:'Commerce'},{v:'arts',l:'Arts / Humanities'}],
+  'diploma':[{v:'engg_diploma',l:'Engineering Diploma'},{v:'other_dip',l:'Other Diploma'}],
+  'ug':[{v:'btech',l:'B.Tech / B.E.'},{v:'bsc',l:'B.Sc'},{v:'bcom',l:'B.Com'},{v:'ba',l:'BA'},{v:'bba',l:'BBA'},{v:'mbbs',l:'MBBS'}],
+  'pg':[{v:'mtech',l:'M.Tech'},{v:'mba',l:'MBA'},{v:'msc',l:'M.Sc'},{v:'mca',l:'MCA'}]
+};
+function updateDemoStreams(){
+  const q=document.getElementById('dQual').value,s=document.getElementById('dStream');
+  s.innerHTML='<option value="">â€” Select â€”</option>';
+  if(demoStreams[q])demoStreams[q].forEach(o=>{const el=document.createElement('option');el.value=o.v;el.textContent=o.l;s.appendChild(el)});
+}
+const demoCourses=[
+  {name:'B.Tech / B.E.',reqQual:['12th'],reqStreams:['pcm','pcmb'],minMarks:{general:60,sc_st:55,ews:55,pwd:55},note:'JEE Main / TNEA preferred for govt colleges'},
+  {name:'MBBS',reqQual:['12th'],reqStreams:['pcb','pcmb'],minMarks:{general:50,sc_st:40,ews:45,pwd:45},note:'NEET mandatory for all colleges'},
+  {name:'B.Com',reqQual:['12th'],reqStreams:['commerce','pcm','pcmb','arts'],minMarks:{general:45,sc_st:40,ews:40,pwd:40},note:'Direct merit; CUET for central universities'},
+  {name:'MBA',reqQual:['ug'],reqStreams:['btech','bsc','bcom','ba','bba','mbbs'],minMarks:{general:50,sc_st:45,ews:45,pwd:45},note:'CAT/MAT for top B-schools'},
+  {name:'BA (Arts)',reqQual:['12th'],reqStreams:['arts','commerce','pcm','pcmb'],minMarks:{general:40,sc_st:35,ews:38,pwd:38},note:'Very open eligibility, any stream'},
+  {name:'M.Tech',reqQual:['ug'],reqStreams:['btech'],minMarks:{general:55,sc_st:50,ews:50,pwd:50},note:'GATE preferred for govt colleges'},
+  {name:'B.Pharm',reqQual:['12th'],reqStreams:['pcb','pcm','pcmb'],minMarks:{general:50,sc_st:45,ews:45,pwd:45},note:'Physics & Chemistry mandatory'},
+  {name:'BBA',reqQual:['12th'],reqStreams:['pcm','pcmb','commerce','arts'],minMarks:{general:45,sc_st:40,ews:40,pwd:40},note:'Any stream accepted'}
+];
+function runDemo(){
+  const qual=document.getElementById('dQual').value,stream=document.getElementById('dStream').value,
+    marks=parseFloat(document.getElementById('dMarks').value),cat=document.getElementById('dCat').value;
+  if(!qual||!stream||!marks)return alert('Please fill all fields for the demo.');
+  const btn=document.getElementById('demoBtn');
+  btn.innerHTML='<span class="spinner"></span> Checkingâ€¦';btn.disabled=true;
+  setTimeout(()=>{
+    btn.innerHTML='ðŸ” Check Eligibility (Preview â€” Top 5 Results)';btn.disabled=false;
+    const results=demoCourses.map(c=>{
+      const min=c.minMarks[cat]||c.minMarks.general;
+      if(!c.reqQual.includes(qual))return{...c,status:'ineligible',reason:'Qualification not matched.'};
+      if(c.reqStreams.length&&!c.reqStreams.includes(stream))return{...c,status:'ineligible',reason:'Stream not eligible.'};
+      if(marks<min)return marks>=min-5?{...c,status:'partial',reason:marks+'% marginally below '+min+'% minimum.'}:{...c,status:'ineligible',reason:marks+'% below '+min+'% minimum.'};
+      return{...c,status:'eligible',reason:c.note};
+    }).slice(0,5);
+    const list=document.getElementById('demoResultsList');list.innerHTML='';
+    results.forEach((r,i)=>{
+      const icon=r.status==='eligible'?'âœ…':r.status==='partial'?'âš ï¸':'âŒ';
+      const el=document.createElement('div');el.className='demo-result-item';el.style.animationDelay=i*0.06+'s';
+      el.innerHTML='<div style="font-size:16px;flex-shrink:0">'+icon+'</div><div><div class="demo-result-name">'+r.name+'</div><div class="demo-result-reason">'+r.reason+'</div></div>';
+      list.appendChild(el);
+    });
+    document.getElementById('demoResults').style.display='block';
+  },800);
+}
+function toggleFaq(el){el.parentElement.classList.toggle('open')}
+let rating=0;
+function setRating(n){rating=n;document.querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('active',i<n))}
+</script>
+<script src="../chatbot.js"></script></body>
+</html>
+
+

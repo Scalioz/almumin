@@ -1,0 +1,453 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Student Performance Dashboard â€” Scalioz Education Tools</title>
+<meta name="description" content="Track student performance, subject-wise marks, grade trends and generate instant progress reports. Built for Indian schools and coaching centres."/>
+<link rel="icon" href="../assets/logo.png" type="image/png"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0A1860;--blue:#1A3CFF;--cyan:#00C8FF;--blue-light:#EEF2FF;--green:#00B341;--green-light:#E6F9EE;--red:#E53E3E;--red-light:#FFF0F0;--amber:#F59E0B;--amber-light:#FFFBEB;--purple:#7C3AED;--gray-50:#F8F9FC;--gray-100:#F1F3F9;--gray-200:#E2E6F0;--gray-400:#9BA3BC;--gray-600:#5A6382;--gray-800:#1E2642;--white:#FFFFFF;--font:'Plus Jakarta Sans',sans-serif;--font-body:'Inter',sans-serif;--shadow-lg:0 12px 40px rgba(10,24,96,0.13);--radius:12px;--radius-sm:8px}
+body{font-family:var(--font-body);background:var(--gray-50);color:var(--gray-800)}
+nav{background:var(--white);border-bottom:1px solid var(--gray-200);position:sticky;top:0;z-index:100}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.nav-logo img{height:36px}
+.nav-logo-text{font-family:var(--font);font-size:17px;font-weight:800;color:var(--navy)}
+.nav-logo-text span{color:var(--blue)}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{color:var(--gray-600);text-decoration:none;font-size:14px;font-weight:500;padding:7px 14px;border-radius:6px;transition:all .2s}
+.nav-links a:hover{color:var(--navy);background:var(--gray-100)}
+.nav-cta{background:var(--blue)!important;color:var(--white)!important;border-radius:8px!important;font-weight:600!important}
+@media(max-width:768px){.nav-links{display:none}}
+.breadcrumb{max-width:1200px;margin:0 auto;padding:14px 24px 0;display:flex;align-items:center;gap:6px;font-size:13px;color:var(--gray-400)}
+.breadcrumb a{color:var(--gray-400);text-decoration:none}.breadcrumb a:hover{color:var(--blue)}.breadcrumb span{color:var(--gray-800);font-weight:500}
+.page-wrap{max-width:1200px;margin:0 auto;padding:24px 24px 80px;display:grid;grid-template-columns:1fr 340px;gap:32px;align-items:start}
+@media(max-width:960px){.page-wrap{grid-template-columns:1fr}.sidebar{order:-1}}
+.tool-badge{display:inline-flex;align-items:center;gap:6px;background:var(--blue-light);color:var(--blue);font-size:12px;font-weight:700;padding:4px 12px;border-radius:100px;margin-bottom:14px;font-family:var(--font);text-transform:uppercase;letter-spacing:.5px}
+.tool-title{font-family:var(--font);font-size:clamp(26px,3.5vw,36px);font-weight:800;color:var(--gray-800);line-height:1.15;margin-bottom:10px;letter-spacing:-.3px}
+.tool-subtitle{font-size:16px;color:var(--gray-600);line-height:1.6;margin-bottom:28px;max-width:580px}
+.section-title{font-family:var(--font);font-size:18px;font-weight:700;color:var(--gray-800);margin-bottom:12px}
+.what-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.what-list li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--gray-600);line-height:1.5}
+.what-list li::before{content:'âœ“';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
+
+/* DEMO BOX */
+.demo-box{background:linear-gradient(135deg,#1A3CFF 0%,#0A1860 100%);border-radius:16px;overflow:hidden;margin-bottom:28px}
+.demo-header{padding:18px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.12)}
+.demo-header-left h3{font-family:var(--font);font-size:16px;font-weight:700;color:var(--white)}
+.demo-header-left p{font-size:12px;color:rgba(255,255,255,.6);margin-top:2px}
+.demo-free-badge{background:rgba(0,200,255,.2);border:1px solid rgba(0,200,255,.4);color:var(--cyan);font-size:12px;font-weight:700;padding:4px 12px;border-radius:100px;font-family:var(--font)}
+.demo-inner{padding:24px}
+
+/* STUDENT INPUT */
+.demo-student-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.demo-group{display:flex;flex-direction:column;gap:5px}
+.demo-group.full{grid-column:1/-1}
+.demo-label{font-size:11px;font-weight:600;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.5px}
+.demo-input,.demo-select{width:100%;padding:9px 12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:6px;color:var(--white);font-size:13px;font-family:var(--font-body);outline:none;transition:border-color .2s}
+.demo-input:focus,.demo-select:focus{border-color:var(--cyan)}
+.demo-input::placeholder{color:rgba(255,255,255,.4)}
+.demo-select option{background:var(--navy);color:var(--white)}
+
+/* MARKS TABLE */
+.marks-table{width:100%;border-collapse:collapse;margin-bottom:14px}
+.marks-table th{font-size:11px;font-weight:600;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px;padding:6px 8px;text-align:left;border-bottom:1px solid rgba(255,255,255,.15)}
+.marks-table td{padding:6px 8px;border-bottom:1px solid rgba(255,255,255,.07)}
+.marks-table td:first-child{font-size:13px;color:rgba(255,255,255,.85);font-weight:500}
+.marks-table input[type="number"]{width:70px;padding:5px 8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:5px;color:var(--white);font-size:13px;font-family:var(--font-body);outline:none;text-align:center}
+.marks-table input:focus{border-color:var(--cyan)}
+.marks-table td.grade-cell{font-size:12px;font-weight:700;font-family:var(--font)}
+
+.demo-btn{width:100%;padding:12px;background:var(--cyan);color:var(--navy);border:none;border-radius:8px;font-size:14px;font-weight:700;font-family:var(--font);cursor:pointer;transition:all .2s}
+.demo-btn:hover{background:#00E0FF;transform:translateY(-1px)}
+
+/* RESULTS */
+.demo-results{margin-top:20px;display:none;animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* SCORE CARD */
+.score-card{background:rgba(255,255,255,.1);border-radius:12px;padding:18px;margin-bottom:16px}
+.score-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.student-name-result{font-family:var(--font);font-size:16px;font-weight:700;color:var(--white)}
+.student-class{font-size:12px;color:rgba(255,255,255,.6);margin-top:2px}
+.overall-grade{text-align:center}
+.grade-circle{width:60px;height:60px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--font);border:3px solid}
+.grade-circle .g-letter{font-size:20px;font-weight:800;line-height:1}
+.grade-circle .g-pct{font-size:10px;font-weight:600;margin-top:1px}
+
+/* BAR CHART */
+.bar-chart{display:flex;flex-direction:column;gap:8px}
+.bar-row{display:flex;align-items:center;gap:10px}
+.bar-subject{font-size:12px;color:rgba(255,255,255,.75);width:90px;flex-shrink:0;font-weight:500}
+.bar-track{flex:1;height:8px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width .8s ease}
+.bar-pct{font-size:11px;font-weight:600;color:rgba(255,255,255,.75);width:36px;text-align:right;flex-shrink:0}
+
+/* SUMMARY STATS */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.stat-box{background:rgba(255,255,255,.08);border-radius:8px;padding:12px;text-align:center}
+.stat-num{font-family:var(--font);font-size:20px;font-weight:800;color:var(--white)}
+.stat-label{font-size:10px;color:rgba(255,255,255,.5);margin-top:3px;text-transform:uppercase;letter-spacing:.5px}
+
+.demo-limit-note{text-align:center;padding:14px;background:rgba(0,200,255,.1);border-radius:8px;margin-top:14px}
+.demo-limit-note p{font-size:12px;color:rgba(255,255,255,.7);margin-bottom:8px}
+.demo-unlock-btn{display:inline-block;padding:8px 20px;background:var(--cyan);color:var(--navy);border-radius:6px;font-size:13px;font-weight:700;font-family:var(--font);cursor:pointer;border:none}
+
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(10,24,96,.3);border-top-color:var(--navy);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* SIDEBAR */
+.sidebar{position:sticky;top:80px}
+.pricing-card{background:var(--white);border-radius:16px;box-shadow:var(--shadow-lg);overflow:hidden;border:1px solid var(--gray-200);margin-bottom:16px}
+.pricing-card-header{padding:18px 22px 0}
+.pricing-card-header h3{font-family:var(--font);font-size:16px;font-weight:700;color:var(--gray-800);margin-bottom:4px}
+.pricing-card-header p{font-size:13px;color:var(--gray-400);margin-bottom:16px}
+.price-row{padding:16px 22px;border:1.5px solid var(--gray-200);border-radius:var(--radius-sm);margin:0 16px 12px;position:relative}
+.price-row.popular{border-color:var(--blue);background:var(--blue-light)}
+.price-row-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.price-plan-name{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--gray-400);font-family:var(--font)}
+.save-badge{background:var(--blue);color:var(--white);font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;font-family:var(--font)}
+.price-amount{font-family:var(--font);font-size:26px;font-weight:800;color:var(--navy);line-height:1}
+.price-amount sup{font-size:14px;vertical-align:super}
+.price-gst{font-size:12px;color:var(--gray-400);margin-top:3px;margin-bottom:10px}
+.price-features{list-style:none;margin-bottom:12px}
+.price-features li{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--gray-600);padding:2px 0}
+.price-features li::before{content:'â€¢';color:var(--blue);font-weight:700}
+.btn-subscribe{background:var(--blue);color:var(--white);border:none;border-radius:8px;padding:11px;font-size:14px;font-weight:700;font-family:var(--font);cursor:pointer;width:100%;transition:all .2s}
+.btn-subscribe:hover{background:var(--navy);transform:translateY(-1px)}
+.btn-subscribe.dark{background:var(--navy)}.btn-subscribe.dark:hover{background:#060f3d}
+.trust-badges{padding:14px 22px 18px;border-top:1px solid var(--gray-100);display:flex;flex-direction:column;gap:7px}
+.trust-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--gray-600)}
+.trust-item.green{color:var(--green);font-weight:600}
+
+/* FAQ */
+.faq-section{margin-bottom:32px}
+.faq-item{border:1px solid var(--gray-200);border-radius:var(--radius-sm);margin-bottom:8px;overflow:hidden;background:var(--white)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;cursor:pointer;font-size:14px;font-weight:600;color:var(--gray-800);font-family:var(--font);transition:background .2s;gap:12px}
+.faq-q:hover{background:var(--gray-50)}
+.faq-arrow{font-size:18px;color:var(--gray-400);transition:transform .25s;flex-shrink:0}
+.faq-item.open .faq-arrow{transform:rotate(180deg)}
+.faq-a{display:none;padding:14px 18px 16px;font-size:14px;color:var(--gray-600);line-height:1.6;border-top:1px solid var(--gray-100)}
+.faq-item.open .faq-a{display:block}
+
+/* RATE */
+.rate-section{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:24px;margin-bottom:32px}
+.rate-section h3{font-family:var(--font);font-size:16px;font-weight:700;margin-bottom:4px}
+.rate-section>p{font-size:13px;color:var(--gray-400);margin-bottom:18px}
+.rate-form-group{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.rate-label{font-size:12px;font-weight:600;color:var(--gray-600);text-transform:uppercase;letter-spacing:.3px;font-family:var(--font)}
+.rate-input,.rate-textarea{width:100%;padding:10px 13px;border:1.5px solid var(--gray-200);border-radius:var(--radius-sm);font-size:14px;font-family:var(--font-body);color:var(--gray-800);outline:none;resize:vertical}
+.rate-input:focus,.rate-textarea:focus{border-color:var(--blue)}
+.stars{display:flex;gap:4px}
+.star{font-size:24px;cursor:pointer;color:var(--gray-200);transition:color .15s}
+.star:hover,.star.active{color:var(--amber)}
+.char-count{font-size:11px;color:var(--gray-400);text-align:right;margin-top:4px}
+.btn-review{background:var(--blue);color:var(--white);border:none;border-radius:var(--radius-sm);padding:11px 24px;font-size:14px;font-weight:700;font-family:var(--font);cursor:pointer;transition:all .2s}
+.btn-review:hover{background:var(--navy)}
+.reviews-section{margin-bottom:32px}
+.reviews-section h3{font-family:var(--font);font-size:18px;font-weight:700;margin-bottom:18px}
+.no-reviews{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius);padding:32px;text-align:center;color:var(--gray-400);font-size:14px}
+.custom-cta{background:var(--navy);border-radius:16px;padding:40px 32px;text-align:center;margin-bottom:32px}
+.custom-cta h3{font-family:var(--font);font-size:20px;font-weight:800;color:var(--white);margin-bottom:8px}
+.custom-cta p{font-size:14px;color:rgba(255,255,255,.65);margin-bottom:20px}
+.btn-custom{display:inline-block;padding:12px 28px;background:var(--cyan);color:var(--navy);border-radius:8px;font-size:14px;font-weight:700;font-family:var(--font);text-decoration:none;transition:all .2s}
+.btn-custom:hover{background:#00E0FF;transform:translateY(-1px)}
+
+footer{background:var(--navy);padding:48px 24px 24px}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;margin-bottom:32px}
+.f-logo{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.f-logo img{height:36px}
+.f-logo-text{font-family:var(--font);font-size:16px;font-weight:800;color:var(--white)}
+.f-tagline{font-size:12px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;font-weight:600}
+.footer-col h4{font-family:var(--font);font-size:13px;font-weight:700;color:var(--white);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}
+.footer-col a{display:block;font-size:13px;color:rgba(255,255,255,.5);text-decoration:none;margin-bottom:8px;transition:color .2s}
+.footer-col a:hover{color:var(--cyan)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-bottom p{font-size:12px;color:rgba(255,255,255,.3)}
+@media(max-width:768px){.footer-top{grid-template-columns:1fr;gap:24px}.demo-student-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="../index.html" class="nav-logo"><img src="../assets/logo.png" alt="Scalioz" onerror="this.style.display='none'"/></a>
+    <div class="nav-links">
+      <a href="../tools.html">Tools</a><a href="../index.html#pricing">Pricing</a><a href="../index.html#support">Support</a><a href="../index.html#contact">Custom</a>
+      <a href="../index.html#contact" class="nav-cta">Get Started</a>
+    </div>
+  </div>
+</nav>
+<div class="breadcrumb"><a href="../index.html">Home</a> / <a href="../tools.html#education">Education</a> / <span>Student Performance Dashboard</span></div>
+<div class="page-wrap">
+  <div class="content">
+    <div class="tool-badge">ðŸ“Š Education</div>
+    <h1 class="tool-title">Student Performance Dashboard</h1>
+    <p class="tool-subtitle">Track every student's subject-wise marks, calculate grades instantly and generate visual performance reports â€” for schools, coaching centres and private tutors.</p>
+    <h2 class="section-title">What this tool does</h2>
+    <ul class="what-list">
+      <li>Enters marks for up to 8 subjects and instantly calculates percentage, grade and rank</li>
+      <li>Generates a visual bar chart showing subject-wise performance at a glance</li>
+      <li>Identifies strongest and weakest subjects automatically for focused counselling</li>
+      <li>Supports CBSE, ICSE and State Board grading systems</li>
+      <li>Tracks performance across multiple exams â€” Unit Test, Mid-Term, Final and more</li>
+      <li>Exportable PDF progress reports to share with parents and management</li>
+    </ul>
+    <div class="demo-box">
+      <div class="demo-header">
+        <div class="demo-header-left"><h3>Live Demo Preview</h3><p>Enter student marks and see instant performance analysis</p></div>
+        <span class="demo-free-badge">FREE PREVIEW</span>
+      </div>
+      <div class="demo-inner">
+        <div class="demo-student-row">
+          <div class="demo-group">
+            <label class="demo-label">Student Name</label>
+            <input class="demo-input" type="text" id="dName" placeholder="E.g. Arjun Kumar"/>
+          </div>
+          <div class="demo-group">
+            <label class="demo-label">Class / Standard</label>
+            <select class="demo-select" id="dClass">
+              <option value="Class 10">Class 10</option>
+              <option value="Class 11">Class 11</option>
+              <option value="Class 12">Class 12</option>
+              <option value="Class 9">Class 9</option>
+              <option value="Class 8">Class 8</option>
+            </select>
+          </div>
+          <div class="demo-group">
+            <label class="demo-label">Board</label>
+            <select class="demo-select" id="dBoard">
+              <option value="CBSE">CBSE</option>
+              <option value="ICSE">ICSE</option>
+              <option value="Tamil Nadu State Board">TN State Board</option>
+              <option value="Maharashtra Board">MH Board</option>
+              <option value="Karnataka Board">KA Board</option>
+            </select>
+          </div>
+          <div class="demo-group">
+            <label class="demo-label">Exam Type</label>
+            <select class="demo-select" id="dExam">
+              <option value="Final Exam">Final Exam</option>
+              <option value="Mid-Term">Mid-Term</option>
+              <option value="Unit Test 1">Unit Test 1</option>
+              <option value="Unit Test 2">Unit Test 2</option>
+              <option value="Quarterly">Quarterly</option>
+            </select>
+          </div>
+        </div>
+        <table class="marks-table" id="marksTable">
+          <thead><tr><th>Subject</th><th>Marks Obtained</th><th>Max Marks</th><th>Grade</th></tr></thead>
+          <tbody id="marksBody"></tbody>
+        </table>
+        <button class="demo-btn" onclick="calcPerformance()" id="demoBtn">ðŸ“Š Generate Performance Report</button>
+        <div class="demo-results" id="demoResults">
+          <div class="score-card">
+            <div class="score-card-top">
+              <div><div class="student-name-result" id="resName"></div><div class="student-class" id="resClass"></div></div>
+              <div class="overall-grade"><div class="grade-circle" id="gradeCircle"><span class="g-letter" id="gradeLetter"></span><span class="g-pct" id="gradePct"></span></div></div>
+            </div>
+            <div class="bar-chart" id="barChart"></div>
+            <div class="stats-row">
+              <div class="stat-box"><div class="stat-num" id="statTotal"></div><div class="stat-label">Total Marks</div></div>
+              <div class="stat-box"><div class="stat-num" id="statPct"></div><div class="stat-label">Percentage</div></div>
+              <div class="stat-box"><div class="stat-num" id="statGrade"></div><div class="stat-label">Grade</div></div>
+            </div>
+          </div>
+          <div class="demo-limit-note">
+            <p>ðŸ”’ Full version: multi-student tracker, parent report PDF, exam comparison charts, class rank and more.</p>
+            <button class="demo-unlock-btn" onclick="document.querySelector('.pricing-card').scrollIntoView({behavior:'smooth'})">Unlock Full Access â†’</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <div class="faq-section">
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">How do I access the tool after purchase? <span class="faq-arrow">âŒ„</span></div><div class="faq-a">You receive a license key via WhatsApp immediately after payment. Enter it on the tool page to unlock full access including multi-student tracking, PDF export and parent reports.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Which grading systems are supported? <span class="faq-arrow">âŒ„</span></div><div class="faq-a">We support CBSE (A1â€“E grading), ICSE (percentage-based), Tamil Nadu State Board, Maharashtra Board and Karnataka Board grading scales. Custom grading is available on the lifetime plan.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can I track multiple students? <span class="faq-arrow">âŒ„</span></div><div class="faq-a">Yes. The full version supports unlimited students per class, with a class-wise dashboard showing ranks, toppers and students needing attention. Bulk CSV import is available on yearly and lifetime plans.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can I share reports with parents? <span class="faq-arrow">âŒ„</span></div><div class="faq-a">Yes. The full version generates a branded PDF progress report that you can share via WhatsApp, email or print. Reports include marks, grades, bar charts and teacher comments.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">What is your refund policy? <span class="faq-arrow">âŒ„</span></div><div class="faq-a">7-day refund on monthly plans. Yearly and lifetime plans are non-refundable after 7 days. Contact support@scalioz.com for assistance.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Can I compare performance across multiple exams? <span class="faq-arrow">âŒ„</span></div><div class="faq-a">Yes. The full version tracks Unit Test 1, Unit Test 2, Mid-Term, Quarterly and Final exam results in a single timeline chart showing improvement or decline per subject over the year.</div></div>
+    </div>
+    <div class="rate-section">
+      <h3>Rate this tool</h3>
+      <p>Only verified license holders can leave a review</p>
+      <div class="rate-form-group"><label class="rate-label">License Key</label><input class="rate-input" type="text" placeholder="Enter your license key to verify purchase"/></div>
+      <div class="rate-form-group"><label class="rate-label">Your Rating</label><div class="stars"><span class="star" onclick="setRating(1)">â˜…</span><span class="star" onclick="setRating(2)">â˜…</span><span class="star" onclick="setRating(3)">â˜…</span><span class="star" onclick="setRating(4)">â˜…</span><span class="star" onclick="setRating(5)">â˜…</span></div></div>
+      <div class="rate-form-group"><label class="rate-label">Your Name (optional)</label><input class="rate-input" type="text" placeholder="Anonymous"/></div>
+      <div class="rate-form-group"><label class="rate-label">Your Review (optional)</label><textarea class="rate-textarea" rows="4" maxlength="500" placeholder="How has this tool helped your institution?" oninput="document.getElementById('cc').textContent=this.value.length+'/500'"></textarea><div class="char-count" id="cc">0/500</div></div>
+      <button class="btn-review">Submit Review</button>
+    </div>
+    <div class="reviews-section"><h3>Customer Reviews</h3><div class="no-reviews">No reviews yet. Be the first to rate this tool after purchase.</div></div>
+    <div class="custom-cta">
+      <h3>ðŸ”§ Need a custom version of this tool?</h3>
+      <p>We can brand it, modify it, or build something completely new for your institution.</p>
+      <a href="../index.html#contact" class="btn-custom">See Custom Options â†’</a>
+    </div>
+  </div>
+  <div class="sidebar">
+    <div class="pricing-card">
+      <div class="pricing-card-header"><h3>Get Access to Student Performance Dashboard</h3><p>Choose the plan that fits your institution</p></div>
+      <div class="price-row" style="margin-top:16px;">
+        <div class="price-row-top"><span class="price-plan-name">Monthly</span></div>
+        <div class="price-amount"><sup>â‚¹</sup>499<span style="font-size:14px;font-weight:500;color:var(--gray-400)">/mo</span></div>
+        <div class="price-gst">+ 18% GST</div>
+        <ul class="price-features"><li>Cancel anytime</li><li>Bug fixes, 48hr WhatsApp support</li></ul>
+        <button class="btn-subscribe" onclick="openRazorpay('monthly',58902,'Monthly Plan â€” Student Performance Dashboard')">Subscribe Monthly</button>
+      </div>
+      <div class="price-row popular">
+        <div class="price-row-top"><span class="price-plan-name">Yearly</span><span class="save-badge">SAVE 33%</span></div>
+        <div class="price-amount"><sup>â‚¹</sup>3,999<span style="font-size:14px;font-weight:500;color:var(--gray-600)">/yr</span></div>
+        <div class="price-gst">+ 18% GST</div>
+        <ul class="price-features"><li>1 upgrade/quarter included</li><li>24hr support, email + WhatsApp</li></ul>
+        <button class="btn-subscribe" onclick="openRazorpay('yearly',471882,'Yearly Plan â€” Student Performance Dashboard')">Subscribe Yearly</button>
+      </div>
+      <div class="price-row">
+        <div class="price-row-top"><span class="price-plan-name">Lifetime</span></div>
+        <div class="price-amount"><sup>â‚¹</sup>9,999</div>
+        <div class="price-gst">+ GST = â‚¹11,799 total</div>
+        <ul class="price-features"><li>Pay once, use forever</li><li>2 upgrades/year, 12hr support, call access</li></ul>
+        <button class="btn-subscribe dark" onclick="openRazorpay('lifetime',1179882,'Lifetime Plan â€” Student Performance Dashboard')">Buy Lifetime</button>
+      </div>
+      <div class="trust-badges">
+        <div class="trust-item">ðŸ”’ Secure payment via Razorpay</div>
+        <div class="trust-item">ðŸ§¾ GST Invoice auto-generated</div>
+        <div class="trust-item">ðŸ• 7-day refund on monthly plans</div>
+        <div class="trust-item green">âš¡ Instant access after payment</div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="f-logo"><img src="../assets/logo.png" alt="Scalioz" onerror="this.style.display='none'"/><span class="f-logo-text">SC<span style="color:var(--cyan)">AI</span>LOZ</span></div>
+        <div class="f-tagline">Build Systems. Grow Faster.</div>
+        <p style="font-size:12px;color:rgba(255,255,255,.4);line-height:1.6">Â© 2026 Scalioz â€” Scalioz Digital Business Solutions</p>
+      </div>
+      <div class="footer-col"><h4>Quick Links</h4><a href="../tools.html">Tools</a><a href="../index.html#pricing">Pricing</a><a href="../index.html#support">Support</a></div>
+      <div class="footer-col"><h4>Legal</h4><a href="#">Terms of Service</a><a href="#">Privacy Policy</a><a href="#">Refund Policy</a><a href="#">Cookie Policy</a></div>
+    </div>
+    <div class="footer-bottom">
+      <p>Â© 2026 Scalioz. All tools and content are proprietary to Scalioz Digital Business Solutions.</p>
+      <p>A Scalioz Digital Business Solutions Company â€” All Rights Reserved 2026</p>
+    </div>
+  </div>
+</footer>
+<script>
+const RAZORPAY_KEY='rzp_live_SsU1sQQQXDGPHX';
+function openRazorpay(plan,amt,desc){
+  const o={key:RAZORPAY_KEY,amount:amt,currency:'INR',name:'Scalioz Systems',description:desc,image:'../assets/logo.png',prefill:{name:'',email:'',contact:''},notes:{tool:'Student Performance Dashboard',plan:plan},theme:{color:'#1A3CFF'},handler:function(r){alert('âœ… Payment successful!\nPayment ID: '+r.razorpay_payment_id+'\n\nYour license key will be sent via WhatsApp within 5 minutes.')}};
+  new Razorpay(o).open();
+}
+
+const subjects=[
+  {name:'Mathematics',key:'maths'},
+  {name:'Science / Physics',key:'sci'},
+  {name:'Chemistry',key:'chem'},
+  {name:'English',key:'eng'},
+  {name:'Social Studies / History',key:'soc'}
+];
+
+// Build marks table
+(function(){
+  const tbody=document.getElementById('marksBody');
+  subjects.forEach(s=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${s.name}</td><td><input type="number" id="m_${s.key}" min="0" max="100" placeholder="0" style="width:70px;padding:5px 8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:5px;color:white;font-size:13px;font-family:inherit;outline:none;text-align:center"/></td><td><input type="number" id="max_${s.key}" value="100" min="1" max="200" style="width:70px;padding:5px 8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:5px;color:white;font-size:13px;font-family:inherit;outline:none;text-align:center"/></td><td class="grade-cell" id="g_${s.key}" style="color:rgba(255,255,255,.4)">â€”</td>`;
+    tbody.appendChild(tr);
+  });
+})();
+
+function getGrade(pct){
+  if(pct>=91)return{l:'A1',c:'#00B341'};
+  if(pct>=81)return{l:'A2',c:'#00C8FF'};
+  if(pct>=71)return{l:'B1',c:'#1A3CFF'};
+  if(pct>=61)return{l:'B2',c:'#7C3AED'};
+  if(pct>=51)return{l:'C1',c:'#F59E0B'};
+  if(pct>=41)return{l:'C2',c:'#F97316'};
+  if(pct>=33)return{l:'D',c:'#E53E3E'};
+  return{l:'E',c:'#991B1B'};
+}
+
+function getBarColor(pct){
+  if(pct>=75)return'#00B341';
+  if(pct>=50)return'#00C8FF';
+  if(pct>=33)return'#F59E0B';
+  return'#E53E3E';
+}
+
+function calcPerformance(){
+  const name=document.getElementById('dName').value.trim()||'Student';
+  const cls=document.getElementById('dClass').value;
+  const board=document.getElementById('dBoard').value;
+  const exam=document.getElementById('dExam').value;
+
+  let totalObt=0,totalMax=0;
+  const subResults=[];
+  let valid=true;
+
+  subjects.forEach(s=>{
+    const m=parseFloat(document.getElementById('m_'+s.key).value);
+    const max=parseFloat(document.getElementById('max_'+s.key).value)||100;
+    if(isNaN(m)||m<0||m>max){valid=false;return;}
+    const pct=Math.round((m/max)*100);
+    const grade=getGrade(pct);
+    document.getElementById('g_'+s.key).textContent=grade.l;
+    document.getElementById('g_'+s.key).style.color=grade.c;
+    totalObt+=m; totalMax+=max;
+    subResults.push({name:s.name,obt:m,max:max,pct:pct,grade:grade});
+  });
+
+  if(!valid)return alert('Please enter valid marks for all subjects (between 0 and max marks).');
+
+  const btn=document.getElementById('demoBtn');
+  btn.innerHTML='<span class="spinner"></span> Generatingâ€¦';btn.disabled=true;
+  setTimeout(()=>{
+    btn.innerHTML='ðŸ“Š Generate Performance Report';btn.disabled=false;
+
+    const overallPct=Math.round((totalObt/totalMax)*100);
+    const overallGrade=getGrade(overallPct);
+
+    document.getElementById('resName').textContent=name;
+    document.getElementById('resClass').textContent=cls+' Â· '+board+' Â· '+exam;
+
+    const gc=document.getElementById('gradeCircle');
+    gc.style.borderColor=overallGrade.c;
+    document.getElementById('gradeLetter').textContent=overallGrade.l;
+    document.getElementById('gradeLetter').style.color=overallGrade.c;
+    document.getElementById('gradePct').textContent=overallPct+'%';
+    document.getElementById('gradePct').style.color='rgba(255,255,255,.7)';
+
+    const bc=document.getElementById('barChart');bc.innerHTML='';
+    subResults.forEach((r,i)=>{
+      const row=document.createElement('div');row.className='bar-row';
+      row.style.animationDelay=i*0.08+'s';
+      row.innerHTML=`<div class="bar-subject">${r.name.split('/')[0].trim()}</div><div class="bar-track"><div class="bar-fill" style="width:0%;background:${getBarColor(r.pct)}" data-w="${r.pct}"></div></div><div class="bar-pct">${r.pct}%</div>`;
+      bc.appendChild(row);
+    });
+    setTimeout(()=>{document.querySelectorAll('.bar-fill').forEach(b=>b.style.width=b.dataset.w+'%')},100);
+
+    document.getElementById('statTotal').textContent=totalObt+'/'+totalMax;
+    document.getElementById('statPct').textContent=overallPct+'%';
+    document.getElementById('statGrade').textContent=overallGrade.l;
+    document.getElementById('statGrade').style.color=overallGrade.c;
+
+    document.getElementById('demoResults').style.display='block';
+  },800);
+}
+
+function toggleFaq(el){el.parentElement.classList.toggle('open')}
+let rating=0;
+function setRating(n){rating=n;document.querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('active',i<n))}
+</script>
+<script src="../chatbot.js"></script></body>
+</html>
+
+
+

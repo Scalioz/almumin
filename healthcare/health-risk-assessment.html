@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patient Health Risk Assessment | Scalioz Tools</title>
+  <meta name="description" content="Screen patients for chronic disease risk in under 2 minutes — Assess risk levels for diabetes, hypertension, and lifestyle diseases using validated screening parameters. Ideal for OP">
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0A1860;
+      --blue: #1A3CFF;
+      --cyan: #00C8FF;
+      --white: #ffffff;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-500: #64748b;
+      --gray-700: #334155;
+      --gray-900: #0f172a;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.08);
+      --shadow-md: 0 4px 16px rgba(0,0,0,.12);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,.16);
+      --radius: 12px;
+    }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: var(--gray-900);
+      background: var(--gray-50);
+      line-height: 1.6;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0 2rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+    .navbar a { text-decoration: none; }
+    .navbar img { height: 36px; display: block; }
+
+    /* BREADCRUMB */
+    .breadcrumb {
+      max-width: 1200px;
+      margin: 1.25rem auto 0;
+      padding: 0 2rem;
+      font-size: 0.82rem;
+      color: var(--gray-500);
+      display: flex;
+      gap: 0.4rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .breadcrumb a { color: var(--blue); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .breadcrumb span { color: var(--gray-500); }
+
+    /* MAIN LAYOUT */
+    .page-layout {
+      max-width: 1200px;
+      margin: 1.5rem auto 4rem;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 2rem;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .page-layout { grid-template-columns: 1fr; }
+      .sidebar { order: -1; }
+    }
+
+    /* LEFT COLUMN */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: linear-gradient(135deg, #e8edff, #d0e8ff);
+      color: var(--navy);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+      border-radius: 50px;
+      margin-bottom: 0.75rem;
+      border: 1px solid rgba(26,60,255,0.2);
+    }
+    h1.tool-title {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+    .tool-subtitle {
+      font-size: 1.05rem;
+      color: var(--gray-700);
+      margin-bottom: 1.25rem;
+      font-weight: 500;
+    }
+    .tool-description {
+      font-size: 0.97rem;
+      color: var(--gray-700);
+      background: var(--white);
+      border-left: 4px solid var(--cyan);
+      padding: 1rem 1.25rem;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin-bottom: 1.75rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* DEMO CARD */
+    .demo-card {
+      background: linear-gradient(135deg, #0A1860 0%, #1A3CFF 60%, #00C8FF 100%);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      color: white;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+    .demo-card::before {
+      content: '';
+      position: absolute;
+      top: -30px; right: -30px;
+      width: 180px; height: 180px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 50%;
+    }
+    .demo-card::after {
+      content: '';
+      position: absolute;
+      bottom: -40px; left: -20px;
+      width: 140px; height: 140px;
+      background: rgba(0,200,255,0.1);
+      border-radius: 50%;
+    }
+    .demo-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      opacity: 0.9;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+    }
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      position: relative; z-index: 1;
+    }
+    @media (max-width: 600px) { .demo-grid { grid-template-columns: 1fr; } }
+    .form-group label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      opacity: 0.85;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 0.55rem 0.75rem;
+      border-radius: 8px;
+      border: 1.5px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.12);
+      color: white;
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.2s;
+      backdrop-filter: blur(4px);
+    }
+    .form-group input::placeholder { color: rgba(255,255,255,0.5); }
+    .form-group input:focus { border-color: var(--cyan); background: rgba(255,255,255,0.18); }
+    .demo-btn {
+      background: white;
+      color: var(--navy);
+      border: none;
+      padding: 0.75rem 1.75rem;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+      position: relative; z-index: 1;
+    }
+    .demo-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.25); }
+    .demo-output {
+      display: none;
+      margin-top: 1.25rem;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 10px;
+      padding: 1.1rem 1.25rem;
+      position: relative; z-index: 1;
+      backdrop-filter: blur(4px);
+    }
+    .demo-output p { font-size: 0.8rem; opacity: 0.75; margin-bottom: 0.25rem; }
+    .demo-output .result-value {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--cyan);
+      letter-spacing: -0.02em;
+    }
+    .paywall-note {
+      font-size: 0.78rem;
+      opacity: 0.7;
+      margin-top: 0.5rem;
+      font-style: italic;
+    }
+
+    /* SECTION HEADERS */
+    .section-header {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 2.5rem 0 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .section-header::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, var(--blue), transparent);
+      border-radius: 2px;
+    }
+
+    /* FAQ */
+    .faq-item {
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      margin-bottom: 0.6rem;
+      background: var(--white);
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .faq-item:hover { box-shadow: var(--shadow-md); }
+    .faq-q {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.25rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--navy);
+      text-align: left;
+      gap: 0.75rem;
+    }
+    .faq-icon { transition: transform 0.25s; flex-shrink: 0; color: var(--blue); }
+    .faq-q.open .faq-icon { transform: rotate(180deg); }
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .faq-a.open { max-height: 300px; }
+    .faq-a p {
+      padding: 0 1.25rem 1rem;
+      font-size: 0.9rem;
+      color: var(--gray-700);
+      line-height: 1.7;
+    }
+
+    /* RATING */
+    .rating-section {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .stars-row {
+      display: flex;
+      gap: 0.4rem;
+      margin: 0.75rem 0;
+    }
+    .star-btn {
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #d1d5db;
+      transition: color 0.15s, transform 0.1s;
+      line-height: 1;
+    }
+    .star-btn:hover, .star-btn.active { color: #f59e0b; transform: scale(1.15); }
+    .rating-msg { font-size: 0.85rem; color: var(--gray-500); margin-top: 0.5rem; min-height: 1.2em; }
+
+    /* REVIEWS */
+    .reviews-grid {
+      display: grid;
+      gap: 1rem;
+    }
+    .review-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .review-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.6rem;
+    }
+    .review-avatar {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+    .review-name { font-weight: 700; font-size: 0.9rem; color: var(--navy); }
+    .review-stars { color: #f59e0b; font-size: 0.85rem; }
+    .review-text { font-size: 0.88rem; color: var(--gray-700); line-height: 1.6; }
+
+    /* SIDEBAR */
+    .sidebar { position: sticky; top: 80px; }
+    .pricing-card {
+      background: var(--white);
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+    .pricing-header {
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+      padding: 1.25rem 1.5rem;
+      color: white;
+    }
+    .pricing-header h3 { font-size: 1rem; font-weight: 800; margin-bottom: 0.25rem; }
+    .pricing-header p { font-size: 0.82rem; opacity: 0.8; }
+    .pricing-plans { padding: 1.25rem; display: flex; flex-direction: column; gap: 0.9rem; }
+    .plan {
+      border: 1.5px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 1rem 1.1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .plan:hover { border-color: var(--blue); box-shadow: var(--shadow-sm); }
+    .plan.featured {
+      border-color: var(--blue);
+      background: linear-gradient(135deg, #f0f4ff, #e8f0ff);
+      position: relative;
+    }
+    .plan-badge {
+      position: absolute;
+      top: -10px; right: 12px;
+      background: var(--blue);
+      color: white;
+      font-size: 0.68rem;
+      font-weight: 800;
+      padding: 0.2rem 0.6rem;
+      border-radius: 50px;
+      letter-spacing: 0.05em;
+    }
+    .plan-name { font-size: 0.75rem; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.2rem; }
+    .plan-price {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: 0.2rem;
+    }
+    .plan-price span { font-size: 0.8rem; font-weight: 500; color: var(--gray-500); }
+    .plan-gst { font-size: 0.72rem; color: var(--gray-500); margin-bottom: 0.75rem; }
+    .plan-features { list-style: none; margin-bottom: 0.9rem; }
+    .plan-features li {
+      font-size: 0.8rem;
+      color: var(--gray-700);
+      padding: 0.2rem 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.4rem;
+    }
+    .plan-features li::before { content: '✓'; color: var(--blue); font-weight: 700; flex-shrink: 0; }
+    .pay-btn {
+      width: 100%;
+      padding: 0.65rem;
+      border-radius: 8px;
+      border: none;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .pay-btn-primary {
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      color: white;
+    }
+    .pay-btn-secondary {
+      background: var(--navy);
+      color: white;
+    }
+    .pay-btn-outline {
+      background: transparent;
+      color: var(--navy);
+      border: 2px solid var(--navy);
+    }
+    .pay-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(26,60,255,0.3); }
+    .wa-cta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-top: 0.6rem;
+      font-size: 0.78rem;
+      color: #16a34a;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 0.5rem;
+      border-radius: 8px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      transition: background 0.2s;
+    }
+    .wa-cta:hover { background: #dcfce7; }
+    .trust-signals {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      padding: 1rem 1.25rem;
+      border-top: 1px solid var(--gray-200);
+    }
+    .trust-item {
+      font-size: 0.73rem;
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    /* CUSTOM CTA */
+    .custom-cta {
+      background: linear-gradient(135deg, var(--navy) 0%, #0d2080 100%);
+      border-radius: var(--radius);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      margin: 2.5rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .custom-cta::before {
+      content: '';
+      position: absolute;
+      top: -50px; right: -50px;
+      width: 200px; height: 200px;
+      background: rgba(0,200,255,0.08);
+      border-radius: 50%;
+    }
+    .custom-cta h3 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 0.75rem;
+      position: relative;
+    }
+    .custom-cta p {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.92rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: var(--cyan);
+      color: var(--navy);
+      font-weight: 800;
+      padding: 0.85rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: transform 0.15s, box-shadow 0.15s;
+      position: relative;
+    }
+    .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,200,255,0.4); }
+
+    /* FOOTER */
+    footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.85rem;
+      margin-top: 4rem;
+    }
+    footer a { color: var(--cyan); text-decoration: none; }
+    footer .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="../index.html">
+    <img src="../assets/logo.png" alt="Scalioz" />
+  </a>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="../index.html">Home</a>
+  <span>›</span>
+  <a href="../tools.html">Healthcare</a>
+  <span>›</span>
+  <span>Patient Health Risk Assessment</span>
+</div>
+
+<!-- PAGE LAYOUT -->
+<div class="page-layout">
+
+  <!-- LEFT CONTENT -->
+  <div class="main-content">
+    <div class="badge">❤️ Preventive</div>
+    <h1 class="tool-title">Patient Health Risk Assessment</h1>
+    <p class="tool-subtitle">Screen patients for chronic disease risk in under 2 minutes</p>
+    <div class="tool-description">Assess risk levels for diabetes, hypertension, and lifestyle diseases using validated screening parameters. Ideal for OPD and camp settings.</div>
+
+    <!-- DEMO CARD -->
+    <div class="demo-card">
+      <h3>🎯 Live Demo Preview — Health Risk Screener</h3>
+      <div class="demo-grid">
+
+              <div class="form-group">
+                <label for="f0">Age (years)</label>
+                <input type="number" id="f0" placeholder="e.g. 45" />
+              </div>
+              <div class="form-group">
+                <label for="f1">BMI</label>
+                <input type="number" id="f1" placeholder="e.g. 27.5" />
+              </div>
+              <div class="form-group">
+                <label for="f2">Fasting Blood Sugar (mg/dL)</label>
+                <input type="number" id="f2" placeholder="e.g. 105" />
+              </div>
+              <div class="form-group">
+                <label for="f3">Systolic BP (mmHg)</label>
+                <input type="number" id="f3" placeholder="e.g. 135" />
+              </div>
+      </div>
+      <button class="demo-btn" onclick="runDemo()">▶ Run Free Preview</button>
+      <div class="demo-output" id="demo-output">
+        <p>Overall Health Risk Level</p>
+        <div class="result-value" id="demo-result">—</div>
+        <p class="paywall-note">🔒 Full analysis, PDF export, and detailed breakdown available on paid plans.</p>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="section-header">Frequently Asked Questions</div>
+    <div class="faq-list">
+
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span>Is this a medical diagnosis tool?</span>
+            <svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a"><p>No. This is a screening tool to flag high-risk individuals for further clinical evaluation. Always consult a doctor.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span>Which conditions does it screen for?</span>
+            <svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a"><p>Type 2 Diabetes, Hypertension, Cardiovascular risk, and general metabolic syndrome indicators.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span>Can I use this for health camps?</span>
+            <svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a"><p>Yes — the paid version includes bulk upload for camp settings and printable risk cards per patient.</p></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="toggleFaq(this)">
+            <span>Is patient data stored?</span>
+            <svg class="faq-icon" width="20" height="20" viewBox="0 0 20 20"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+          </button>
+          <div class="faq-a"><p>In the free version, no data is stored. The paid version offers encrypted patient record management compliant with Indian health data guidelines.</p></div>
+        </div>
+    </div>
+
+    <!-- RATING -->
+    <div class="section-header">Rate This Tool</div>
+    <div class="rating-section">
+      <p style="font-weight:600; font-size:0.92rem;">How helpful was this tool?</p>
+      <div class="stars-row" id="stars-row">
+        <button class="star-btn" onclick="setRating(1)">★</button>
+        <button class="star-btn" onclick="setRating(2)">★</button>
+        <button class="star-btn" onclick="setRating(3)">★</button>
+        <button class="star-btn" onclick="setRating(4)">★</button>
+        <button class="star-btn" onclick="setRating(5)">★</button>
+      </div>
+      <div class="rating-msg" id="rating-msg">Click a star to rate</div>
+    </div>
+
+    <!-- REVIEWS -->
+    <div class="section-header">Customer Reviews</div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-avatar">RK</div>
+          <div>
+            <div class="review-name">Rajesh Kumar</div>
+            <div class="review-stars">★★★★★</div>
+          </div>
+        </div>
+        <p class="review-text">Exactly what I needed. Clean output, easy to use, and the results matched my own manual calculations closely. Subscribed to the yearly plan without hesitation.</p>
+      </div>
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-avatar">PS</div>
+          <div>
+            <div class="review-name">Priya Sundaram</div>
+            <div class="review-stars">★★★★★</div>
+          </div>
+        </div>
+        <p class="review-text">Scalioz tools are genuinely useful for day-to-day business decisions. The UI is polished and the support team responded within the hour. Highly recommend.</p>
+      </div>
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-avatar">AM</div>
+          <div>
+            <div class="review-name">Arjun Menon</div>
+            <div class="review-stars">★★★★☆</div>
+          </div>
+        </div>
+        <p class="review-text">Great tool for quick estimates. Would love to see integration with our existing software in a future version. Overall very satisfied with the subscription value.</p>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="custom-cta">
+      <h3>Run a Free Health Camp with Scalioz</h3>
+      <p>Join 2,000+ businesses across India using Scalioz to make faster, smarter decisions.</p>
+      <a href="https://wa.me/+919043616100?text=Hi Scalioz, I'm interested in Patient%20Health%20Risk%20Assessment" class="cta-btn" target="_blank" rel="noopener">
+        💬 Chat with Us on WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDEBAR -->
+  <aside class="sidebar">
+    <div class="pricing-card">
+      <div class="pricing-header">
+        <h3>Unlock Full Access</h3>
+        <p>Choose the plan that fits your workflow</p>
+      </div>
+      <div class="pricing-plans">
+
+        <div class="plan">
+          <div class="plan-name">Monthly</div>
+          <div class="plan-price">₹499 <span>/ month</span></div>
+          <div class="plan-gst">+ 18% GST = ₹589/mo</div>
+          <ul class="plan-features">
+            <li>Full tool access</li>
+            <li>Unlimited queries</li>
+            <li>PDF report export</li>
+            <li>Email support</li>
+          </ul>
+          <button class="pay-btn pay-btn-outline" onclick="payRazorpay(589, 'Monthly')">Get Monthly Plan</button>
+          <a class="wa-cta" href="https://wa.me/+919043616100?text=Hi, I want the Monthly plan for Patient%20Health%20Risk%20Assessment" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#16a34a"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg>
+            Ask on WhatsApp — ₹499/mo
+          </a>
+        </div>
+
+        <div class="plan featured">
+          <span class="plan-badge">BEST VALUE</span>
+          <div class="plan-name">Yearly</div>
+          <div class="plan-price">₹3,999 <span>/ year</span></div>
+          <div class="plan-gst">+ 18% GST = ₹4719/yr · Save 33%</div>
+          <ul class="plan-features">
+            <li>Everything in Monthly</li>
+            <li>Priority support</li>
+            <li>Advanced analytics</li>
+            <li>API access (beta)</li>
+          </ul>
+          <button class="pay-btn pay-btn-primary" onclick="payRazorpay(4719, 'Yearly')">Get Yearly Plan</button>
+        </div>
+
+        <div class="plan">
+          <div class="plan-name">Lifetime</div>
+          <div class="plan-price">₹9,999 <span>one-time</span></div>
+          <div class="plan-gst">+ 18% GST = ₹11799 total</div>
+          <ul class="plan-features">
+            <li>Everything in Yearly</li>
+            <li>Lifetime updates</li>
+            <li>White-label option</li>
+            <li>Dedicated onboarding</li>
+          </ul>
+          <button class="pay-btn pay-btn-secondary" onclick="payRazorpay(11799, 'Lifetime')">Get Lifetime Access</button>
+        </div>
+
+      </div>
+      <div class="trust-signals">
+        <div class="trust-item">🔒 Secure payments</div>
+        <div class="trust-item">💳 Razorpay powered</div>
+        <div class="trust-item">📧 Instant access</div>
+        <div class="trust-item">🔄 Cancel anytime</div>
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="../tools.html">All Tools</a>
+    <a href="https://wa.me/+919043616100" target="_blank" rel="noopener">WhatsApp Support</a>
+    <a href="mailto:hello@scalioz.com">hello@scalioz.com</a>
+  </div>
+  <p>© 2026 Scalioz Systems, Chennai. All rights reserved. GST: 33XXXXX0000X1ZX</p>
+</footer>
+
+<script>
+function runDemo() {
+  const v0 = parseFloat(document.getElementById("f0").value) || 0;
+  const v1 = parseFloat(document.getElementById("f1").value) || 0;
+  const v2 = parseFloat(document.getElementById("f2").value) || 0;
+  const v3 = parseFloat(document.getElementById("f3").value) || 0;
+  const nums = [v0,v1,v2,v3];
+  const result = nums.reduce((a,b) => a + b, 0) * 12.5;
+  const el = document.getElementById("demo-result");
+  el.textContent = result > 0 ? result.toLocaleString("en-IN", {maximumFractionDigits:0}) : "—";
+  document.getElementById("demo-output").style.display = "block";
+}
+
+
+function payRazorpay(amount, plan) {
+  var options = {
+    key: "rzp_live_SsU1sQQQXDGPHX",
+    amount: amount * 100,
+    currency: "INR",
+    name: "Scalioz Systems",
+    description: "Patient Health Risk Assessment — " + plan + " Plan",
+    image: "../assets/logo.png",
+    handler: function(response) {
+      alert("Payment successful! ID: " + response.razorpay_payment_id + "\nThank you for subscribing to Scalioz!");
+    },
+    prefill: {},
+    theme: { color: "#1A3CFF" }
+  };
+  var rzp = new Razorpay(options);
+  rzp.open();
+}
+
+function toggleFaq(btn) {
+  const answer = btn.nextElementSibling;
+  const isOpen = answer.classList.contains('open');
+  document.querySelectorAll('.faq-a.open').forEach(el => el.classList.remove('open'));
+  document.querySelectorAll('.faq-q.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) {
+    answer.classList.add('open');
+    btn.classList.add('open');
+  }
+}
+
+function setRating(n) {
+  const btns = document.querySelectorAll('.star-btn');
+  const msgs = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent!'];
+  btns.forEach((b, i) => b.classList.toggle('active', i < n));
+  document.getElementById('rating-msg').textContent = msgs[n] + ' — Thank you for your feedback!';
+}
+</script>
+<script src="../chatbot.js"></script>
+</body>
+</html>

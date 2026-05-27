@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scalioz Tools — Smart Tools for Growing Businesses</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Arial',sans-serif;background:#fff;color:#333}
+
+/* HEADER */
+header{background:#fff;padding:15px 40px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.logo img{height:145px;width:auto}
+nav{display:flex;align-items:center;gap:30px}
+nav a{color:#333;text-decoration:none;font-size:14px;font-weight:500}
+nav a:hover{color:#0A1860}
+.btn-getstarted{background:#1A3CFF;color:#fff!important;padding:10px 24px;border-radius:8px;font-weight:bold!important}
+.btn-getstarted:hover{background:#0A1860!important}
+
+/* HERO */
+.hero{background:linear-gradient(160deg,#0A1860 0%,#0d2170 50%,#091550 100%);color:#fff;padding:100px 40px;text-align:center;min-height:420px;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.hero h1{font-size:48px;font-weight:800;margin-bottom:20px;line-height:1.2}
+.hero h1 span{color:#00C8FF}
+.hero p{font-size:18px;opacity:.85;max-width:560px;margin:0 auto 35px;line-height:1.6}
+.hero-btns{display:flex;gap:15px;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:#1A3CFF;color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:15px;display:inline-flex;align-items:center;gap:8px}
+.btn-primary:hover{background:#0d2bb3}
+.btn-secondary{background:transparent;color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:15px;border:2px solid rgba(255,255,255,.4)}
+.btn-secondary:hover{border-color:#fff;background:rgba(255,255,255,.1)}
+
+/* INDUSTRIES */
+.industries{padding:80px 40px;text-align:center;background:#f8f9ff}
+.industries h2{font-size:34px;font-weight:800;color:#0A1860;margin-bottom:10px}
+.industries .sub{color:#666;font-size:16px;margin-bottom:50px}
+.industry-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px;max-width:1100px;margin:0 auto}
+.industry-card{background:#fff;border-radius:16px;padding:30px;text-align:left;border:2px solid #eee;transition:all .3s;text-decoration:none;color:inherit;display:block}
+.industry-card:hover{border-color:#1A3CFF;box-shadow:0 10px 30px rgba(26,60,255,.12);transform:translateY(-4px)}
+.industry-card .icon{font-size:36px;margin-bottom:15px;display:block}
+.industry-card h3{font-size:20px;font-weight:700;color:#0A1860;margin-bottom:5px}
+.industry-card .count{font-size:13px;color:#1A3CFF;font-weight:600;margin-bottom:10px}
+.industry-card p{font-size:14px;color:#666;line-height:1.5;margin-bottom:15px}
+.industry-card .browse{color:#1A3CFF;font-size:14px;font-weight:600;display:flex;align-items:center;gap:5px}
+
+/* FEATURES */
+.features{padding:80px 40px;text-align:center;background:#fff}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:40px;max-width:900px;margin:0 auto}
+.feature{text-align:center}
+.feature .ficon{font-size:36px;margin-bottom:15px;display:block}
+.feature h3{font-size:17px;font-weight:700;color:#0A1860;margin-bottom:8px}
+.feature p{font-size:14px;color:#666;line-height:1.5}
+
+/* PRICING */
+.pricing{padding:80px 40px;background:#f8f9ff;text-align:center}
+.pricing h2{font-size:34px;font-weight:800;color:#0A1860;margin-bottom:10px}
+.pricing .sub{color:#666;font-size:16px;margin-bottom:50px}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:25px;max-width:900px;margin:0 auto}
+.price-card{background:#fff;border-radius:16px;padding:35px;border:2px solid #eee;position:relative}
+.price-card.popular{border-color:#1A3CFF;box-shadow:0 10px 30px rgba(26,60,255,.15)}
+.popular-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:#1A3CFF;color:#fff;padding:4px 20px;border-radius:20px;font-size:12px;font-weight:bold}
+.price-card .plan{font-size:12px;font-weight:700;color:#666;text-transform:uppercase;letter-spacing:1px;margin-bottom:15px}
+.price-card .amount{font-size:42px;font-weight:800;color:#0A1860;margin-bottom:5px}
+.price-card .amount span{font-size:16px;font-weight:500;color:#666}
+.price-card .gst{font-size:12px;color:#999;margin-bottom:20px}
+.price-card ul{list-style:none;margin-bottom:25px;text-align:left}
+.price-card ul li{font-size:14px;color:#555;padding:6px 0;display:flex;align-items:center;gap:8px}
+.price-card ul li::before{content:"✓";color:#1A3CFF;font-weight:bold}
+.btn-plan{display:block;padding:13px;border-radius:8px;font-weight:bold;font-size:15px;text-decoration:none;text-align:center;border:none;cursor:pointer;width:100%}
+.btn-plan.outline{background:#fff;color:#1A3CFF;border:2px solid #1A3CFF}
+.btn-plan.outline:hover{background:#1A3CFF;color:#fff}
+.btn-plan.filled{background:#1A3CFF;color:#fff}
+.btn-plan.filled:hover{background:#0A1860}
+.btn-plan.dark{background:#0A1860;color:#fff}
+.btn-plan.dark:hover{background:#000}
+.pricing-note{margin-top:25px;font-size:13px;color:#888}
+
+/* CTA BANNER */
+.cta-banner{background:#0A1860;color:#fff;padding:70px 40px;text-align:center}
+.cta-banner h2{font-size:30px;font-weight:800;margin-bottom:12px}
+.cta-banner p{font-size:16px;opacity:.8;margin-bottom:30px}
+.cta-banner .btn-primary{background:#00C8FF;color:#0A1860}
+.cta-banner .btn-primary:hover{background:#fff}
+
+/* FOOTER */
+footer{background:#0d0f1a;color:#fff;padding:50px 40px 25px}
+.footer-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;max-width:1000px;margin:0 auto 40px}
+.footer-brand img{height:45px;margin-bottom:12px}
+.footer-brand .tagline{color:#00C8FF;font-size:13px;font-weight:600;margin-bottom:8px}
+.footer-brand p{font-size:13px;color:#aaa}
+footer h4{font-size:14px;font-weight:700;margin-bottom:15px;color:#fff}
+footer ul{list-style:none}
+footer ul li{margin-bottom:8px}
+footer ul li a{color:#aaa;text-decoration:none;font-size:13px}
+footer ul li a:hover{color:#00C8FF}
+.footer-bottom{border-top:1px solid #222;padding-top:20px;text-align:center;font-size:12px;color:#555;max-width:1000px;margin:0 auto}
+
+@media(max-width:768px){
+.hero h1{font-size:30px}
+nav a:not(.btn-getstarted){display:none}
+.footer-grid{grid-template-columns:1fr}
+.hero-btns{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <a href="index.html">
+      <img src="assets/logo.png" style="height:52px;" />
+    </a>
+  </div>
+  <nav>
+    <a href="tools.html">Tools</a>
+    <a href="index.html#pricing">Pricing</a>
+    <a href="mailto:info@scalioz.com">Support</a>
+    <a href="index.html#custom">Custom</a>
+    <a href="tools.html" class="btn-getstarted">Get Started</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <h1>Smart Tools for<br><span>Growing Businesses</span></h1>
+  <p>Ready-to-use calculators, dashboards, and automation tools for clinics, real estate firms, construction companies, and education institutes.</p>
+  <div class="hero-btns">
+    <a href="tools.html" class="btn-primary">Explore All Tools →</a>
+    <a href="#how-it-works" class="btn-secondary">How it works ↓</a>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="industries" id="how-it-works">
+  <h2>Pick Your Industry</h2>
+  <p class="sub">Specialised tools built for how your business actually works</p>
+  <div class="industry-grid">
+    <a href="tools.html#healthcare" class="industry-card">
+      <span class="icon">🏥</span>
+      <h3>Healthcare</h3>
+      <div class="count">9 Tools Available</div>
+      <p>Calculators and automation tools for clinics and health professionals</p>
+      <span class="browse">Browse Tools →</span>
+    </a>
+    <a href="tools.html#realestate" class="industry-card">
+      <span class="icon">🏠</span>
+      <h3>Real Estate</h3>
+      <div class="count">8 Tools Available</div>
+      <p>ROI tools, lead trackers, and property analysis dashboards</p>
+      <span class="browse">Browse Tools →</span>
+    </a>
+    <a href="tools.html#construction" class="industry-card">
+      <span class="icon">🏗️</span>
+      <h3>Construction & PEB</h3>
+      <div class="count">8 Tools Available</div>
+      <p>Budget estimators, BOQ generators, and project trackers</p>
+      <span class="browse">Browse Tools →</span>
+    </a>
+    <a href="tools.html#education" class="industry-card">
+      <span class="icon">🎓</span>
+      <h3>Education</h3>
+      <div class="count">10 Tools Available</div>
+      <p>Student management, exam planners, and admission tools</p>
+      <span class="browse">Browse Tools →</span>
+    </a>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="features-grid">
+    <div class="feature">
+      <span class="ficon">⚡</span>
+      <h3>Instant Access</h3>
+      <p>Live tools delivered via license key immediately after purchase. No setup, no waiting.</p>
+    </div>
+    <div class="feature">
+      <span class="ficon">🔒</span>
+      <h3>Secure & Reliable</h3>
+      <p>Your data stays yours. Built with enterprise-grade security and reliability.</p>
+    </div>
+    <div class="feature">
+      <span class="ficon">🇮🇳</span>
+      <h3>Built for India</h3>
+      <p>GST-compliant billing, Razorpay payments, INR pricing, DPDP Act compliant.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <h2>Simple, Transparent Pricing</h2>
+  <p class="sub">Every tool. Same pricing. No surprises.</p>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="plan">Monthly</div>
+      <div class="amount">₹499<span>/mo</span></div>
+      <div class="gst">+ 18% GST</div>
+      <ul>
+        <li>Full tool access</li>
+        <li>License key included</li>
+        <li>WhatsApp support</li>
+        <li>Cancel anytime</li>
+      </ul>
+      <button class="btn-plan outline">Subscribe Monthly</button>
+    </div>
+    <div class="price-card popular">
+      <div class="popular-badge">⭐ Most Popular</div>
+      <div class="plan">Yearly</div>
+      <div class="amount">₹3,999<span>/yr</span></div>
+      <div class="gst">+ 18% GST — Save 33%</div>
+      <ul>
+        <li>Full tool access</li>
+        <li>License key included</li>
+        <li>WhatsApp support</li>
+        <li>1 upgrade/quarter included</li>
+      </ul>
+      <button class="btn-plan filled">Subscribe Yearly</button>
+    </div>
+    <div class="price-card">
+      <div class="plan">Lifetime</div>
+      <div class="amount">₹9,999</div>
+      <div class="gst">+ 18% GST = ₹11,799 total</div>
+      <ul>
+        <li>Full tool access forever</li>
+        <li>License key included</li>
+        <li>12hr support + call access</li>
+        <li>2 upgrades/year included</li>
+      </ul>
+      <button class="btn-plan dark">Buy Lifetime</button>
+    </div>
+  </div>
+  <p class="pricing-note">All plans include: Bug fixes, WhatsApp support, and free updates for your plan duration</p>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <h2>Need a Custom Version of Any Tool?</h2>
+  <p>We can brand it, modify it, or build something completely new for your business.</p>
+  <a href="https://www.scalioz.com" class="btn-primary">See Custom Options →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <img src="assets/logo.png" style="height:52px;" />
+      <div class="tagline">BUILD SYSTEMS. GROW FASTER.</div>
+      <p>© 2026 Scalioz — Seociate Digital Business Solutions</p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="tools.html">Tools</a></li>
+        <li><a href="index.html#pricing">Pricing</a></li>
+        <li><a href="mailto:info@scalioz.com">Support</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Refund Policy</a></li>
+        <li><a href="#">Cookie Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Scalioz. All tools, content and intellectual property are proprietary to Seociate Digital Business Solutions. Unauthorised copying, reproduction or redistribution is prohibited.</p>
+    <p style="margin-top:8px">A Seociate Digital Business Solutions Company — All Rights Reserved 2026</p>
+  </div>
+</footer>
+
+</body>
+</html>

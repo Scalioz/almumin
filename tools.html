@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Tools — Scalioz Tools Marketplace</title>
+  <meta name="description" content="35+ ready-to-use business tools for clinics, real estate, construction, and education. Razorpay-powered, GST-compliant, built for Indian businesses.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0A1860;
+      --blue: #1A3CFF;
+      --cyan: #00C8FF;
+      --white: #ffffff;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-500: #64748b;
+      --gray-700: #334155;
+      --gray-900: #0f172a;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.08);
+      --shadow-md: 0 4px 16px rgba(0,0,0,.12);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,.18);
+      --radius: 12px;
+    }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--gray-50); color: var(--gray-900); }
+
+    /* NAVBAR */
+    .navbar {
+      background: white; border-bottom: 1px solid var(--gray-200);
+      padding: 0 2rem; height: 64px; display: flex; align-items: center;
+      justify-content: space-between; position: sticky; top: 0; z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+    .navbar img { height: 36px; }
+    .navbar a { text-decoration: none; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a { color: var(--gray-700); font-size: 0.9rem; font-weight: 500; text-decoration: none; }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-cta {
+      background: var(--blue); color: white !important; padding: 0.5rem 1.25rem;
+      border-radius: 8px; font-weight: 700 !important;
+    }
+    .nav-cta:hover { background: var(--navy) !important; color: white !important; }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #0d2080 60%, #1A3CFF 100%);
+      color: white; text-align: center; padding: 4rem 2rem 3.5rem;
+    }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; margin-bottom: 0.75rem; }
+    .hero p { font-size: 1.1rem; opacity: 0.8; }
+
+    /* FILTERS */
+    .filters-bar {
+      background: white; border-bottom: 1px solid var(--gray-200);
+      padding: 1rem 2rem; position: sticky; top: 64px; z-index: 90;
+      display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 0.5rem 1.1rem; border-radius: 50px; border: 1.5px solid var(--gray-200);
+      background: white; font-size: 0.85rem; font-weight: 600; cursor: pointer;
+      transition: all 0.18s; color: var(--gray-700); display: flex; align-items: center; gap: 0.35rem;
+    }
+    .filter-btn:hover { border-color: var(--blue); color: var(--blue); }
+    .filter-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
+    .search-wrap { margin-left: auto; position: relative; }
+    .search-wrap input {
+      padding: 0.5rem 1rem 0.5rem 2.25rem; border-radius: 50px;
+      border: 1.5px solid var(--gray-200); font-size: 0.85rem; width: 220px; outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-wrap input:focus { border-color: var(--blue); }
+    .search-wrap svg { position: absolute; left: 0.7rem; top: 50%; transform: translateY(-50%); color: var(--gray-500); }
+
+    /* TOOLS GRID */
+    .tools-section { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    .tools-count { font-size: 0.85rem; color: var(--gray-500); margin-bottom: 1.25rem; font-weight: 500; }
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+
+    /* TOOL CARD */
+    .tool-card {
+      background: white; border-radius: var(--radius); overflow: hidden;
+      border: 1px solid var(--gray-200); transition: box-shadow 0.2s, transform 0.2s;
+      display: flex; flex-direction: column;
+    }
+    .tool-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+    .card-img {
+      height: 160px; overflow: hidden; position: relative;
+      background: linear-gradient(135deg, var(--navy), var(--blue));
+    }
+    .card-img img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+    .card-img-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+    }
+    .card-new-badge {
+      position: absolute; top: 10px; left: 10px;
+      background: #10b981; color: white; font-size: 0.65rem; font-weight: 800;
+      padding: 0.2rem 0.55rem; border-radius: 50px; letter-spacing: 0.05em;
+    }
+    .card-cat-badge {
+      position: absolute; top: 10px; right: 10px;
+      background: rgba(0,0,0,0.45); color: white; font-size: 0.65rem; font-weight: 700;
+      padding: 0.2rem 0.55rem; border-radius: 50px; backdrop-filter: blur(4px);
+    }
+    .card-body { padding: 1.1rem 1.25rem; flex: 1; display: flex; flex-direction: column; }
+    .card-tag {
+      font-size: 0.7rem; font-weight: 700; color: var(--blue); text-transform: uppercase;
+      letter-spacing: 0.08em; margin-bottom: 0.35rem;
+    }
+    .card-title { font-size: 1rem; font-weight: 800; color: var(--navy); margin-bottom: 0.4rem; line-height: 1.3; }
+    .card-desc { font-size: 0.82rem; color: var(--gray-500); line-height: 1.5; flex: 1; margin-bottom: 0.9rem; }
+    .card-footer { display: flex; flex-direction: column; gap: 0.5rem; }
+    .card-price { font-size: 0.78rem; color: var(--gray-700); font-weight: 600; }
+    .card-price span { color: var(--blue); font-weight: 800; }
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.45rem;
+    }
+    .btn-card {
+      height: 38px; border-radius: 8px; border: none;
+      font-weight: 700; font-size: 0.75rem; cursor: pointer;
+      text-decoration: none; text-align: center;
+      display: flex; align-items: center; justify-content: center; gap: 4px;
+      transition: transform 0.15s, box-shadow 0.15s;
+      white-space: nowrap; line-height: 1; padding: 0 6px;
+    }
+    .btn-card:hover { transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0,0.18); }
+    .btn-try {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+      color: white;
+    }
+    .btn-pricing {
+      background: white; color: #15803d;
+      border: 1.5px solid #86efac;
+    }
+    .btn-pricing:hover { background: #f0fdf4; }
+    .btn-customise {
+      background: #25D366; color: white;
+    }
+
+    /* NO RESULTS */
+    .no-results { text-align: center; padding: 4rem 2rem; color: var(--gray-500); }
+    .no-results p { font-size: 1rem; }
+
+    /* FOOTER */
+    footer {
+      background: var(--navy); color: rgba(255,255,255,0.7);
+      text-align: center; padding: 2.5rem 2rem; margin-top: 4rem; font-size: 0.85rem;
+    }
+    footer img { height: 32px; margin-bottom: 1rem; filter: brightness(0) invert(1); opacity: 0.8; }
+    footer .tagline { color: var(--cyan); font-weight: 700; margin-bottom: 0.5rem; letter-spacing: 0.05em; }
+    footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+    footer a:hover { color: var(--cyan); }
+    footer .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; }
+
+
+
+
+
+    .card-rating {
+      display: flex; align-items: center; gap: 6px;
+      margin-bottom: 0.5rem;
+    }
+    .card-stars { color: #f59e0b; font-size: 0.85rem; letter-spacing: 1px; }
+    .card-review-count {
+      font-size: 0.72rem; color: #64748b; font-weight: 600;
+      background: #f1f5f9; padding: 2px 7px; border-radius: 20px;
+      animation: pulse-badge 2s infinite;
+    }
+    @keyframes pulse-badge {
+      0%, 100% { background: #f1f5f9; color: #64748b; }
+      50% { background: #e0e7ff; color: #1A3CFF; }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .tools-grid { grid-template-columns: 1fr; }
+      .search-wrap { margin-left: 0; width: 100%; }
+      .search-wrap input { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html"><img src="assets/logo.png" alt="Scalioz" /></a>
+  <div class="nav-links">
+    <a href="tools.html">Tools</a>
+    <a href="index.html#pricing">Pricing</a>
+    <a href="https://wa.me/919043616100" target="_blank" rel="noopener">Support</a>
+    <a href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener">Custom</a>
+    <a href="tools.html" class="nav-cta">Get Started</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>All Tools</h1>
+  <p>35+ tools across 4 industries — built for Indian businesses</p>
+</div>
+
+<!-- FILTERS -->
+<div class="filters-bar">
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="healthcare">🏥 Healthcare</button>
+  <button class="filter-btn" data-filter="real-estate">🏠 Real Estate</button>
+  <button class="filter-btn" data-filter="construction">🏗️ Construction & PEB</button>
+  <button class="filter-btn" data-filter="education">🎓 Education</button>
+  <div class="search-wrap">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="search-input" placeholder="Search tools..." oninput="filterTools()" />
+  </div>
+</div>
+
+<!-- TOOLS -->
+<div class="tools-section">
+  <div class="tools-count" id="tools-count">Showing 35 tools</div>
+  <div class="tools-grid" id="tools-grid">
+
+    <!-- ===== HEALTHCARE ===== -->
+    <div class="tool-card" data-category="healthcare" data-name="clinic revenue leakage detector">
+      <div class="card-img"><img src="https://picsum.photos/seed/clinic-revenue/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="clinic revenue leakage detector" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Healthcare</span></div>
+      <div class="card-body">
+        <div class="card-tag">Finance</div>
+        <div class="card-title">Clinic Revenue Leakage Detector</div>
+        <div class="card-desc">Pinpoint billing gaps, missed follow-ups, and under-priced services draining your clinic income.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="healthcare/clinic-revenue-leakage.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Clinic%20Revenue%20Leakage%20Detector" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="healthcare" data-name="patient no-show predictor">
+      <div class="card-img"><img src="https://picsum.photos/seed/patient-noshow/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="patient no-show predictor" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Healthcare</span></div>
+      <div class="card-body">
+        <div class="card-tag">Scheduling</div>
+        <div class="card-title">Patient No-Show Predictor</div>
+        <div class="card-desc">Predict and prevent appointment no-shows before they cost you — reduce no-shows by up to 60%.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="healthcare/patient-no-show.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Patient%20No-Show%20Predictor" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="healthcare" data-name="staff productivity analyser">
+      <div class="card-img"><img src="https://picsum.photos/seed/staff-prod/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="staff productivity analyser" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Healthcare</span></div>
+      <div class="card-body">
+        <div class="card-tag">HR</div>
+        <div class="card-title">Staff Productivity Analyser</div>
+        <div class="card-desc">Measure doctor utilisation, nurse workload, and admin efficiency. Fix underperformance before burnout hits.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="healthcare/staff-productivity.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Staff%20Productivity%20Analyser" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="healthcare" data-name="healthcare marketing roi calculator">
+      <div class="card-img"><img src="https://picsum.photos/seed/health-mktg/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="healthcare marketing roi calculator" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Healthcare</span></div>
+      <div class="card-body">
+        <div class="card-tag">Marketing</div>
+        <div class="card-title">Healthcare Marketing ROI Calculator</div>
+        <div class="card-desc">Know exactly which marketing channel is bringing patients. Stop guessing, start optimising.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="healthcare/marketing-roi.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Healthcare%20Marketing%20ROI" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="healthcare" data-name="treatment cost estimator">
+      <div class="card-img"><img src="https://picsum.photos/seed/treatment-cost/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="treatment cost estimator" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Healthcare</span></div>
+      <div class="card-body">
+        <div class="card-tag">Clinical</div>
+        <div class="card-title">Treatment Cost Estimator</div>
+        <div class="card-desc">Give patients transparent, instant cost estimates before treatment. Build trust with upfront pricing.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="healthcare/treatment-cost.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Treatment%20Cost%20Estimator" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="healthcare" data-name="clinic growth dashboard">
+      <div class="card-img"><img src="https://picsum.photos/seed/clinic-growth/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="clinic growth dashboard" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Healthcare</span></div>
+      <div class="card-body">
+        <div class="card-tag">Growth</div>
+        <div class="card-title">Clinic Growth Dashboard</div>
+        <div class="card-desc">Your clinic's KPIs, goals, and growth score in one view. Know what to fix next.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="healthcare/clinic-growth-dashboard.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Clinic%20Growth%20Dashboard" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="healthcare" data-name="patient health risk assessment">
+      <div class="card-img"><img src="https://picsum.photos/seed/health-risk/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="patient health risk assessment" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Healthcare</span></div>
+      <div class="card-body">
+        <div class="card-tag">Preventive</div>
+        <div class="card-title">Patient Health Risk Assessment</div>
+        <div class="card-desc">Screen patients for chronic disease risk in under 2 minutes. Ideal for OPD and health camps.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="healthcare/health-risk-assessment.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Health%20Risk%20Assessment" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="healthcare" data-name="ai appointment assistant">
+      <div class="card-img"><img src="https://picsum.photos/seed/ai-appt/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="ai appointment assistant" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Healthcare</span></div>
+      <div class="card-body">
+        <div class="card-tag">AI</div>
+        <div class="card-title">AI Appointment Assistant</div>
+        <div class="card-desc">Automate booking, rescheduling, and follow-ups via WhatsApp — 24/7, zero staff effort.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="healthcare/ai-appointment-assistant.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20AI%20Appointment%20Assistant" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="healthcare" data-name="digital token system queue">
+      <div class="card-img"><img src="https://picsum.photos/seed/digital-token/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="digital token system queue" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Healthcare</span></div>
+      <div class="card-body">
+        <div class="card-tag">Queue</div>
+        <div class="card-title">Digital Token System</div>
+        <div class="card-desc">Eliminate waiting room chaos. Patients get tokens via WhatsApp and arrive on time.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="healthcare/digital-token-system.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Digital%20Token%20System" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== REAL ESTATE ===== -->
+    <div class="tool-card" data-category="real-estate" data-name="property affordability calculator">
+      <div class="card-img"><img src="https://picsum.photos/seed/prop-afford/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="property affordability calculator" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Real Estate</span></div>
+      <div class="card-body">
+        <div class="card-tag">Buying</div>
+        <div class="card-title">Property Affordability Calculator</div>
+        <div class="card-desc">Know exactly what property you can afford before you fall in love with one.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="real-estate/property-affordability.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Property%20Affordability%20Calculator" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="real-estate" data-name="rental yield calculator">
+      <div class="card-img"><img src="https://picsum.photos/seed/rental-yield/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="rental yield calculator" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Real Estate</span></div>
+      <div class="card-body">
+        <div class="card-tag">Investment</div>
+        <div class="card-title">Rental Yield Calculator</div>
+        <div class="card-desc">Find out if your property investment is actually working for you. Compare gross vs net yield.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="real-estate/rental-yield.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Rental%20Yield%20Calculator" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="real-estate" data-name="property roi projection tool">
+      <div class="card-img"><img src="https://picsum.photos/seed/prop-roi/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="property roi projection tool" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Real Estate</span></div>
+      <div class="card-body">
+        <div class="card-tag">ROI</div>
+        <div class="card-title">Property ROI Projection Tool</div>
+        <div class="card-desc">Project your property's 5 and 10-year return before you buy. Compare multiple properties.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="real-estate/property-roi-projection.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Property%20ROI%20Projection" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="real-estate" data-name="home loan eligibility checker">
+      <div class="card-img"><img src="https://picsum.photos/seed/home-loan/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="home loan eligibility checker" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Real Estate</span></div>
+      <div class="card-body">
+        <div class="card-tag">Finance</div>
+        <div class="card-title">Home Loan Eligibility Checker</div>
+        <div class="card-desc">Check how much home loan you qualify for in 60 seconds — with EMI breakdown across major banks.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="real-estate/home-loan-eligibility.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Home%20Loan%20Eligibility%20Checker" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="real-estate" data-name="property comparison tool">
+      <div class="card-img"><img src="https://picsum.photos/seed/prop-compare/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="property comparison tool" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Real Estate</span></div>
+      <div class="card-body">
+        <div class="card-tag">Compare</div>
+        <div class="card-title">Property Comparison Tool</div>
+        <div class="card-desc">Compare up to 3 properties side-by-side on price, location, amenities, and resale potential.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="real-estate/property-comparison.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Property%20Comparison%20Tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="real-estate" data-name="broker lead tracker crm">
+      <div class="card-img"><img src="https://picsum.photos/seed/broker-lead/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="broker lead tracker crm" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Real Estate</span></div>
+      <div class="card-body">
+        <div class="card-tag">CRM</div>
+        <div class="card-title">Broker Lead Tracker</div>
+        <div class="card-desc">Never lose a hot lead again. Track every prospect from enquiry to deal closure.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="real-estate/broker-lead-tracker.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Broker%20Lead%20Tracker" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="real-estate" data-name="locality intelligence report">
+      <div class="card-img"><img src="https://picsum.photos/seed/locality/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="locality intelligence report" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Real Estate</span></div>
+      <div class="card-body">
+        <div class="card-tag">Location</div>
+        <div class="card-title">Locality Intelligence Report</div>
+        <div class="card-desc">Deep data on any neighbourhood — infrastructure pipeline, price trend, and growth potential score.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="real-estate/locality-intelligence.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Locality%20Intelligence%20Report" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="real-estate" data-name="should i buy property decision">
+      <div class="card-img"><img src="https://picsum.photos/seed/prop-afford/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="should i buy property decision" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Real Estate</span></div>
+      <div class="card-body">
+        <div class="card-tag">Decision</div>
+        <div class="card-title">Should I Buy This Property?</div>
+        <div class="card-desc">An honest AI-powered Buy / Wait / Skip recommendation — no bias, no pressure.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="real-estate/should-i-buy-property.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Should%20I%20Buy%20Property" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CONSTRUCTION ===== -->
+    <div class="tool-card" data-category="construction" data-name="peb budget estimator pre-engineered building">
+      <div class="card-img"><img src="https://picsum.photos/seed/treatment-cost/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="peb budget estimator pre-engineered building" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Construction</span></div>
+      <div class="card-body">
+        <div class="card-tag">PEB</div>
+        <div class="card-title">PEB Budget Estimator</div>
+        <div class="card-desc">Get a Pre-Engineered Building cost estimate in under 3 minutes — material, fabrication, and erection.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="construction/peb-budget-estimator.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20PEB%20Budget%20Estimator" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="construction" data-name="warehouse cost estimator">
+      <div class="card-img"><img src="https://picsum.photos/seed/warehouse/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="warehouse cost estimator" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Construction</span></div>
+      <div class="card-body">
+        <div class="card-tag">Warehouse</div>
+        <div class="card-title">Warehouse Cost Estimator</div>
+        <div class="card-desc">Budget warehouse construction accurately — civil, structural, MEP, and fit-out components.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="construction/warehouse-cost-estimator.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Warehouse%20Cost%20Estimator" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="construction" data-name="cold storage roi calculator">
+      <div class="card-img"><img src="https://picsum.photos/seed/cold-storage/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="cold storage roi calculator" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Construction</span></div>
+      <div class="card-body">
+        <div class="card-tag">Cold Storage</div>
+        <div class="card-title">Cold Storage ROI Calculator</div>
+        <div class="card-desc">Calculate returns on cold storage investment — payback period, opex, and 10-year projections.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="construction/cold-storage-roi.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Cold%20Storage%20ROI%20Calculator" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="construction" data-name="construction timeline planner">
+      <div class="card-img"><img src="https://picsum.photos/seed/constr-time/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="construction timeline planner" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Construction</span></div>
+      <div class="card-body">
+        <div class="card-tag">Planning</div>
+        <div class="card-title">Construction Timeline Planner</div>
+        <div class="card-desc">Build a realistic project schedule from concept to handover. Identify critical path and delays.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="construction/construction-timeline.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Construction%20Timeline%20Planner" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="construction" data-name="steel weight calculator structural">
+      <div class="card-img"><img src="https://picsum.photos/seed/health-mktg/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="steel weight calculator structural" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Construction</span></div>
+      <div class="card-body">
+        <div class="card-tag">Structural</div>
+        <div class="card-title">Steel Weight Calculator</div>
+        <div class="card-desc">Calculate IS section weights instantly for estimation and procurement — I-beams, channels, angles, hollow.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="construction/steel-weight-calculator.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Steel%20Weight%20Calculator" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="construction" data-name="boq generator bill of quantities">
+      <div class="card-img"><img src="https://picsum.photos/seed/boq-gen/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="boq generator bill of quantities" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Construction</span></div>
+      <div class="card-body">
+        <div class="card-tag">BOQ</div>
+        <div class="card-title">BOQ Generator</div>
+        <div class="card-desc">Generate a structured Bill of Quantities in minutes — civil, structural, architectural, and MEP trades.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="construction/boq-generator.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20BOQ%20Generator" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="construction" data-name="roofing sheet calculator">
+      <div class="card-img"><img src="https://picsum.photos/seed/roofing/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="roofing sheet calculator" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Construction</span></div>
+      <div class="card-body">
+        <div class="card-tag">Roofing</div>
+        <div class="card-title">Roofing Sheet Calculator</div>
+        <div class="card-desc">Calculate sheets, fasteners, and accessories with zero wastage. Accurate procurement every time.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="construction/roofing-sheet-calculator.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Roofing%20Sheet%20Calculator" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="construction" data-name="industrial roi calculator factory manufacturing">
+      <div class="card-img"><img src="https://picsum.photos/seed/health-mktg/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="industrial roi calculator factory manufacturing" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-new-badge">⭐ New</span><span class="card-cat-badge">Construction</span></div>
+      <div class="card-body">
+        <div class="card-tag">Industrial</div>
+        <div class="card-title">Industrial ROI Calculator</div>
+        <div class="card-desc">Know your factory or manufacturing unit's return on investment before you commit a single rupee.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="construction/industrial-roi.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Industrial%20ROI%20Calculator" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== EDUCATION ===== -->
+    <div class="tool-card" data-category="education" data-name="course eligibility checker">
+      <div class="card-img"><img src="https://picsum.photos/seed/course-elig/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="course eligibility checker" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-cat-badge">Education</span></div>
+      <div class="card-body">
+        <div class="card-tag">Admissions</div>
+        <div class="card-title">Course Eligibility Checker</div>
+        <div class="card-desc">Instantly check if a student meets eligibility criteria for any course or programme.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="education/course-eligibility.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Course%20Eligibility%20Checker" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="education" data-name="scholarship eligibility finder">
+      <div class="card-img"><img src="https://picsum.photos/seed/scholarship/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="scholarship eligibility finder" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-cat-badge">Education</span></div>
+      <div class="card-body">
+        <div class="card-tag">Finance</div>
+        <div class="card-title">Scholarship Eligibility Finder</div>
+        <div class="card-desc">Match students to scholarships they qualify for — government, private, and merit-based.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="education/scholarship-eligibility.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Scholarship%20Eligibility%20Finder" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="education" data-name="student performance analyser">
+      <div class="card-img"><img src="https://picsum.photos/seed/student-perf/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="student performance analyser" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-cat-badge">Education</span></div>
+      <div class="card-body">
+        <div class="card-tag">Analytics</div>
+        <div class="card-title">Student Performance Analyser</div>
+        <div class="card-desc">Track and analyse student scores across subjects to identify weak areas early.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="education/student-performance.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Student%20Performance%20Analyser" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="education" data-name="fee reminder system">
+      <div class="card-img"><img src="https://picsum.photos/seed/fee-remind/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="fee reminder system" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-cat-badge">Education</span></div>
+      <div class="card-body">
+        <div class="card-tag">Admin</div>
+        <div class="card-title">Fee Reminder System</div>
+        <div class="card-desc">Automate fee due reminders via WhatsApp and SMS — reduce collection delays significantly.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="education/fee-reminder.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Fee%20Reminder%20System" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="education" data-name="exam planner schedule">
+      <div class="card-img"><img src="https://picsum.photos/seed/constr-time/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="exam planner schedule" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-cat-badge">Education</span></div>
+      <div class="card-body">
+        <div class="card-tag">Planning</div>
+        <div class="card-title">Exam Planner</div>
+        <div class="card-desc">Generate a personalised exam preparation schedule based on syllabus and available days.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="education/exam-planner.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Exam%20Planner" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="education" data-name="career recommendation tool">
+      <div class="card-img"><img src="https://picsum.photos/seed/career-rec/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="career recommendation tool" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-cat-badge">Education</span></div>
+      <div class="card-body">
+        <div class="card-tag">Career</div>
+        <div class="card-title">Career Recommendation Tool</div>
+        <div class="card-desc">Match students to careers based on interests, strengths, and market demand data.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="education/career-recommendation.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Career%20Recommendation%20Tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="education" data-name="admission follow-up tracker">
+      <div class="card-img"><img src="https://picsum.photos/seed/admission/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="admission follow-up tracker" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-cat-badge">Education</span></div>
+      <div class="card-body">
+        <div class="card-tag">CRM</div>
+        <div class="card-title">Admission Follow-up Tracker</div>
+        <div class="card-desc">Track every enquiry from first contact to enrolment. Never let a lead go cold.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="education/admission-followup.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Admission%20Follow-up%20Tracker" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="education" data-name="marks predictor result estimator">
+      <div class="card-img"><img src="https://picsum.photos/seed/patient-noshow/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="marks predictor result estimator" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-cat-badge">Education</span></div>
+      <div class="card-body">
+        <div class="card-tag">Prediction</div>
+        <div class="card-title">Marks Predictor</div>
+        <div class="card-desc">Predict final exam scores based on internal marks, attendance, and study hours.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="education/marks-predictor.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Marks%20Predictor" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="education" data-name="stream selector science arts commerce">
+      <div class="card-img"><img src="https://picsum.photos/seed/stream-sel/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="stream selector science arts commerce" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-cat-badge">Education</span></div>
+      <div class="card-body">
+        <div class="card-tag">Guidance</div>
+        <div class="card-title">Stream Selector</div>
+        <div class="card-desc">Help students choose Science, Commerce, or Arts based on strengths and career goals.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="education/stream-selector.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Stream%20Selector" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tool-card" data-category="education" data-name="student inquiry management">
+      <div class="card-img"><img src="https://picsum.photos/seed/student-perf/600/340" style="width:100%;height:100%;object-fit:cover;opacity:0.9;"  alt="student inquiry management" style="width:100%;height:100%;object-fit:cover;opacity:0.88;" /><span class="card-cat-badge">Education</span></div>
+      <div class="card-body">
+        <div class="card-tag">Inquiry</div>
+        <div class="card-title">Student Inquiry Manager</div>
+        <div class="card-desc">Capture, assign, and respond to student inquiries efficiently across all channels.</div>
+        <div class="card-rating"><span class="card-stars">★★★★★</span><span class="card-review-count">3 reviews</span></div>
+        <div class="card-footer">
+          <div class="card-price">From <span>₹499/mo</span> + GST</div>
+          <div class="card-actions">
+            <a class="btn-card btn-try" href="education/student-inquiry.html">▶ Try Free</a>
+            <a class="btn-card btn-pricing" href="https://wa.me/919043616100?text=Hi%2C%20interested%20in%20Student%20Inquiry%20Manager" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> ₹499/mo</a>
+            <a class="btn-card btn-customise" href="https://wa.me/919043946087?text=Hi%2C%20I%20want%20to%20customise%20a%20Scalioz%20tool" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.524 5.847L0 24l6.335-1.509A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.015-1.376l-.36-.214-3.727.977.994-3.639-.234-.374A9.818 9.818 0 0112 2.182c5.428 0 9.818 4.39 9.818 9.818 0 5.429-4.39 9.818-9.818 9.818z"/></svg> Customise</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="no-results" id="no-results" style="display:none;">
+    <p>No tools found. Try a different search or category.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <img src="assets/logo.png" alt="Scalioz" />
+  <div class="tagline">BUILD SYSTEMS. GROW FASTER.</div>
+  <p>© 2026 Scalioz — Seociate Digital Business Solutions</p>
+  <div class="footer-links">
+    <a href="mailto:info@scalioz.com">info@scalioz.com</a>
+    <a href="https://www.scalioz.com" target="_blank" rel="noopener">www.scalioz.com</a>
+    <a href="https://wa.me/919043616100" target="_blank" rel="noopener">WhatsApp Support</a>
+  </div>
+</footer>
+
+<script>
+  let activeFilter = 'all';
+
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      filterTools();
+    });
+  });
+
+  function filterTools() {
+    const search = document.getElementById('search-input').value.toLowerCase().trim();
+    const cards = document.querySelectorAll('.tool-card');
+    let visible = 0;
+
+    cards.forEach(card => {
+      const cat = card.dataset.category;
+      const name = card.dataset.name;
+      const matchCat = activeFilter === 'all' || cat === activeFilter;
+      const matchSearch = !search || name.includes(search);
+      const show = matchCat && matchSearch;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    document.getElementById('tools-count').textContent = 'Showing ' + visible + ' tool' + (visible !== 1 ? 's' : '');
+    document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+  }
+</script>
+<script src="chatbot.js"></script>
+</body>
+</html>
