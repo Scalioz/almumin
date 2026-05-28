@@ -1155,7 +1155,7 @@
   <div id="chat-opts"></div>
   <div id="chat-input-row">
     <input id="chat-input" placeholder="Ask anything about Hajj & Umrah..." onkeydown="if(event.key==='Enter')chatSend()" />
-    <button id="chat-send" onclick="chatSend()">Send</button>
+    <button id="mic-btn" onclick="toggleVoice()" title="Tap to speak" style="width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;background:#1a4a3a;color:#fff;font-size:18px;flex-shrink:0;transition:all .2s">🎤</button><button id="chat-send" onclick="chatSend()">Send</button>
   </div>
   <div id="chat-footer">Powered by Al Mumin AI · <a href="https://wa.me/919043616100" target="_blank" style="color:var(--gold)">WhatsApp us</a></div>
 </div>
@@ -1748,4 +1748,5 @@ document.querySelectorAll('.pkg-card, .inc-card, .ziya-card, .testi-card').forEa
 <script src="almumin-voice-patch.js"></script>
 </body>
 </html>
+
 
