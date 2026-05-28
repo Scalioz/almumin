@@ -1,4 +1,4 @@
-// ================================================================
+﻿// ================================================================
 // AL MUMIN CHATBOT — Voice-to-Text Patch
 // Instructions:
 // 1. Open almumin/chatbot.js in VS Code
@@ -88,7 +88,7 @@
       if (inp && inp.value.trim()) {
         // Detect language from transcript and update currentLang
         detectAndSetLang(inp.value);
-        setTimeout(() => autoSend(), 300);
+        setTimeout(() => autoSend(), 700);
       }
     };
 
@@ -266,3 +266,4 @@
   }
 
 })();
+
