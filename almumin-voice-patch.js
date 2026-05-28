@@ -251,14 +251,18 @@
   }
 
   function setLang(lang) {
-    // Update the site's currentLang variable
-    if (typeof window.currentLang !== 'undefined') window.currentLang = lang;
-    // Also click the language button to trigger full lang switch
-    const langBtn = document.querySelector('[data-lang="'+lang+'"]') ||
-                    document.querySelector('.lang-btn[value="'+lang+'"]') ||
-                    document.getElementById('lang-'+lang);
-    if (langBtn) langBtn.click();
-    console.log('[Voice] Language set to:', lang);
+    // Call the site's own setLang function directly
+    try {
+      // The site has setLang('ta'), setLang('hi') etc. defined globally
+      // Find and click the right lang-btn
+      document.querySelectorAll('.lang-btn').forEach(function(btn) {
+        var oc = btn.getAttribute('onclick') || '';
+        if (oc.indexOf("'" + lang + "'") !== -1 || oc.indexOf('"' + lang + '"') !== -1) {
+          btn.click();
+        }
+      });
+    } catch(e) { console.warn('setLang error:', e); }
+    console.log('[Voice] Language switched to:', lang);
   }
 
 })();
