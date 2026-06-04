@@ -1669,6 +1669,19 @@ function chatSend() {
     if (chatLead.step === 'pilgrims') {
       chatLead.pilgrims = msg;
       chatLead.step = null;
+      // Submit to Google Sheet
+      fetch('https://script.google.com/macros/s/AKfycbyHwmPZN0NON2RZK7oPHJE2bG8J6cUxTgkNzWeWum5uBFFvlDAsoYQkCP3d1tWgKm4g4g/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        body: JSON.stringify({
+          name: chatLead.name,
+          phone: chatLead.phone,
+          email: '',
+          website: chatLead.pkg || 'Al Mumin Umrah Package',
+          timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+          source: 'scalioz.github.io/almumin (chatbot) — pilgrims: ' + chatLead.pilgrims
+        })
+      }).catch(() => {});
       const summary = `Assalamu Alaikum Al Mumin Team! 🌙\n\nNew Lead from Website Chatbot:\n👤 Name: ${chatLead.name}\n📞 Phone: ${chatLead.phone}\n📦 Package: ${chatLead.pkg || 'General Enquiry'}\n👥 Pilgrims: ${chatLead.pilgrims}\n\nPlease contact this person. JazakAllah!`;
       addBotMsg(`Alhamdulillah! JazakAllah ${chatLead.name}. Your enquiry has been noted.\n\n✅ Name: ${chatLead.name}\n✅ Phone: ${chatLead.phone}\n✅ Pilgrims: ${chatLead.pilgrims}\n\nOur team will contact you within 1 hour insha'Allah. May Allah accept your Umrah! 🤲`);
       const waBtn = document.createElement('button');
